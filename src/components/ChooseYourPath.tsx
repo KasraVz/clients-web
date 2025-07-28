@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { HelpCircle, User, Users, Handshake, Building } from "lucide-react";
+import { ProgressBar } from "./ProgressBar";
 
 const pathOptions = [
   {
@@ -36,6 +37,14 @@ const pathOptions = [
   },
 ];
 
+const steps = [
+  { id: "register", label: "Register", status: "completed" as const },
+  { id: "identity", label: "Identity", status: "completed" as const },
+  { id: "path", label: "Choose Path", status: "current" as const },
+  { id: "profile", label: "Profile", status: "upcoming" as const },
+  { id: "complete", label: "Complete", status: "upcoming" as const },
+];
+
 export const ChooseYourPath = () => {
   const [selectedPath, setSelectedPath] = useState<string>("");
   const navigate = useNavigate();
@@ -44,13 +53,29 @@ export const ChooseYourPath = () => {
     setSelectedPath(pathId);
     // Store the selected path for later use
     sessionStorage.setItem("selectedPath", pathId);
-    // Navigate to business profile
-    navigate("/business-profile");
+    
+    // Navigate to appropriate profile screen
+    switch (pathId) {
+      case "single-founder":
+      case "team-founder":
+        navigate("/business-profile");
+        break;
+      case "individual-partner":
+        navigate("/individual-partner-profile");
+        break;
+      case "entity-partner":
+        navigate("/entity-partner-profile");
+        break;
+      default:
+        break;
+    }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/20 py-8 px-4">
       <div className="max-w-4xl mx-auto">
+        <ProgressBar steps={steps} />
+        
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-foreground mb-4">Choose Your Path</h1>
           <p className="text-xl text-muted-foreground">

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,8 +7,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Textarea } from "@/components/ui/textarea";
 import { ProgressBar } from "./ProgressBar";
 import { toast } from "@/hooks/use-toast";
+import { Trash2, Plus } from "lucide-react";
 
 const steps = [
   { id: "register", label: "Register", status: "completed" as const },
@@ -80,7 +82,15 @@ const reasonsForPlatform = [
   "Other"
 ];
 
+interface TeamMember {
+  name: string;
+  equityShare: string;
+  role: string;
+  email?: string;
+}
+
 export const BusinessProfile = () => {
+  const [selectedPath, setSelectedPath] = useState<string>("");
   const [formData, setFormData] = useState({
     industry: "",
     developmentStage: "",
@@ -92,9 +102,23 @@ export const BusinessProfile = () => {
     spending: "",
     fundingSources: [] as string[],
     reasonForPlatform: "",
+    // Team founder specific fields
+    addTeamMembers: "",
+    startupName: "",
+    startupWebsite: "",
+    includeTeamResults: "",
   });
+  
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([
+    { name: "", equityShare: "", role: "", email: "" }
+  ]);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const path = sessionStorage.getItem("selectedPath") || "single-founder";
+    setSelectedPath(path);
+  }, []);
 
   const handleSelectChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -107,6 +131,25 @@ export const BusinessProfile = () => {
         ? [...(prev[field as keyof typeof prev] as string[]), value]
         : (prev[field as keyof typeof prev] as string[]).filter(item => item !== value)
     }));
+  };
+
+  const addTeamMember = () => {
+    if (teamMembers.length < 4) {
+      setTeamMembers([...teamMembers, { name: "", equityShare: "", role: "", email: "" }]);
+    }
+  };
+
+  const removeTeamMember = (index: number) => {
+    if (teamMembers.length > 1) {
+      setTeamMembers(teamMembers.filter((_, i) => i !== index));
+    }
+  };
+
+  const updateTeamMember = (index: number, field: keyof TeamMember, value: string) => {
+    const updated = teamMembers.map((member, i) => 
+      i === index ? { ...member, [field]: value } : member
+    );
+    setTeamMembers(updated);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -295,6 +338,145 @@ export const BusinessProfile = () => {
                   </SelectContent>
                 </Select>
               </div>
+
+              {/* Team Founder Specific Fields */}
+              {selectedPath === "team-founder" && (
+                <>
+                  {/* Add Team Members */}
+                  <div className="space-y-3">
+                    <Label>Do you want to add your team members right now? *</Label>
+                    <RadioGroup value={formData.addTeamMembers} onValueChange={(value) => handleSelectChange("addTeamMembers", value)}>
+                      {["Yes", "No"].map((option) => (
+                        <div key={option} className="flex items-center space-x-2">
+                          <RadioGroupItem value={option} id={`team-${option}`} />
+                          <Label htmlFor={`team-${option}`}>{option}</Label>
+                        </div>
+                      ))}
+                    </RadioGroup>
+                  </div>
+
+                  {/* Team Members Form */}
+                  {formData.addTeamMembers === "Yes" && (
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <Label className="text-base font-medium">Team Members</Label>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={addTeamMember}
+                          disabled={teamMembers.length >= 4}
+                          className="gap-2"
+                        >
+                          <Plus className="h-4 w-4" />
+                          Add Member
+                        </Button>
+                      </div>
+                      
+                      {teamMembers.map((member, index) => (
+                        <Card key={index} className="p-4">
+                          <div className="flex items-center justify-between mb-3">
+                            <h4 className="font-medium">Member {index + 1}</h4>
+                            {teamMembers.length > 1 && (
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => removeTeamMember(index)}
+                                className="text-destructive hover:text-destructive"
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            )}
+                          </div>
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <div>
+                              <Label>Name</Label>
+                              <Input
+                                value={member.name}
+                                onChange={(e) => updateTeamMember(index, "name", e.target.value)}
+                                placeholder="Full name"
+                              />
+                            </div>
+                            <div>
+                              <Label>Equity Share (%)</Label>
+                              <Input
+                                type="number"
+                                value={member.equityShare}
+                                onChange={(e) => updateTeamMember(index, "equityShare", e.target.value)}
+                                placeholder="0"
+                                min="0"
+                                max="100"
+                              />
+                            </div>
+                            <div>
+                              <Label>Role/Responsibility</Label>
+                              <Input
+                                value={member.role}
+                                onChange={(e) => updateTeamMember(index, "role", e.target.value)}
+                                placeholder="e.g., CTO, CMO"
+                              />
+                            </div>
+                          </div>
+                        </Card>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Startup Details */}
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label>Startup Name</Label>
+                      <Input
+                        value={formData.startupName}
+                        onChange={(e) => handleSelectChange("startupName", e.target.value)}
+                        placeholder="Enter startup name"
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label>Startup Website</Label>
+                      <Input
+                        type="url"
+                        value={formData.startupWebsite}
+                        onChange={(e) => handleSelectChange("startupWebsite", e.target.value)}
+                        placeholder="https://yourwebsite.com"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Include Team Results */}
+                  <div className="space-y-3">
+                    <Label>Include individual test results of these team members?</Label>
+                    <RadioGroup value={formData.includeTeamResults} onValueChange={(value) => handleSelectChange("includeTeamResults", value)}>
+                      {["Yes", "No"].map((option) => (
+                        <div key={option} className="flex items-center space-x-2">
+                          <RadioGroupItem value={option} id={`results-${option}`} />
+                          <Label htmlFor={`results-${option}`}>{option}</Label>
+                        </div>
+                      ))}
+                    </RadioGroup>
+                  </div>
+
+                  {/* Team Member Emails */}
+                  {formData.includeTeamResults === "Yes" && formData.addTeamMembers === "Yes" && (
+                    <div className="space-y-4">
+                      <Label className="text-base font-medium">Team Member Supsindex Account Emails</Label>
+                      {teamMembers.map((member, index) => (
+                        <div key={index} className="space-y-2">
+                          <Label>Email for {member.name || `Member ${index + 1}`}</Label>
+                          <Input
+                            type="email"
+                            value={member.email || ""}
+                            onChange={(e) => updateTeamMember(index, "email", e.target.value)}
+                            placeholder="member@example.com"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </>
+              )}
 
               <div className="pt-4">
                 <Button type="submit" className="w-full h-12 text-base font-medium">

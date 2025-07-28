@@ -9,6 +9,8 @@ import { EmailVerification } from "./components/EmailVerification";
 import { RegistrationForm } from "./components/RegistrationForm";
 import { ChooseYourPath } from "./components/ChooseYourPath";
 import { BusinessProfile } from "./components/BusinessProfile";
+import { IndividualPartnerProfile } from "./components/IndividualPartnerProfile";
+import { EntityPartnerProfile } from "./components/EntityPartnerProfile";
 import { SecureAccount } from "./components/SecureAccount";
 import { Login } from "./components/Login";
 import { ForgotPassword } from "./components/ForgotPassword";
@@ -29,6 +31,8 @@ const App = () => (
           <Route path="/register" element={<RegistrationForm />} />
           <Route path="/choose-path" element={<ChooseYourPath />} />
           <Route path="/business-profile" element={<BusinessProfile />} />
+          <Route path="/individual-partner-profile" element={<IndividualPartnerProfile />} />
+          <Route path="/entity-partner-profile" element={<EntityPartnerProfile />} />
           <Route path="/secure-account" element={<SecureAccount />} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
