@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
+import logoSvg from "@/assets/logo.svg";
 
 export const WelcomeScreen = () => {
   const [email, setEmail] = useState("");
@@ -42,6 +43,9 @@ export const WelcomeScreen = () => {
       <Card className="w-full max-w-md shadow-lg">
         <CardContent className="p-8">
           <div className="text-center mb-8">
+            <div className="flex justify-center mb-6">
+              <img src={logoSvg} alt="Suspindex" className="h-16" />
+            </div>
             <h1 className="text-3xl font-bold mb-3 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
               Welcome
             </h1>
