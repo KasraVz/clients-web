@@ -24,6 +24,7 @@ export const RegistrationForm = () => {
     firstName: "",
     lastName: "",
     birthdate: undefined as Date | undefined,
+    countryCode: "",
     passportNumber: "",
     referralCode: "",
   });
@@ -45,7 +46,7 @@ export const RegistrationForm = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.firstName || !formData.lastName || !formData.birthdate || !formData.passportNumber) {
+    if (!formData.firstName || !formData.lastName || !formData.birthdate || !formData.countryCode || !formData.passportNumber) {
       toast({
         title: "Missing information",
         description: "Please fill in all required fields",
@@ -68,8 +69,8 @@ export const RegistrationForm = () => {
       description: "Your information has been submitted for verification.",
     });
     
-    // Navigate to next step or completion
-    navigate("/");
+    // Navigate to choose path
+    navigate("/choose-path");
   };
 
   return (
@@ -143,6 +144,17 @@ export const RegistrationForm = () => {
                   value={email || ""}
                   disabled
                   className="bg-muted"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="countryCode">Country Code</Label>
+                <Input
+                  id="countryCode"
+                  value={formData.countryCode}
+                  onChange={(e) => handleInputChange("countryCode", e.target.value)}
+                  placeholder="e.g., +1, +44, +33"
+                  required
                 />
               </div>
 
