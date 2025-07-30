@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ProgressBar } from "./ProgressBar";
 import { CalendarIcon, Upload } from "lucide-react";
 import { format } from "date-fns";
@@ -17,6 +18,29 @@ const steps = [
   { id: "identity", label: "Identity", status: "current" as const },
   { id: "verification", label: "Verification", status: "upcoming" as const },
   { id: "complete", label: "Complete", status: "upcoming" as const },
+];
+
+const countryCodes = [
+  { code: "USA", name: "United States" },
+  { code: "GBR", name: "United Kingdom" },
+  { code: "DEU", name: "Germany" },
+  { code: "FRA", name: "France" },
+  { code: "CAN", name: "Canada" },
+  { code: "AUS", name: "Australia" },
+  { code: "JPN", name: "Japan" },
+  { code: "CHN", name: "China" },
+  { code: "IND", name: "India" },
+  { code: "BRA", name: "Brazil" },
+  { code: "IRN", name: "Iran" },
+  { code: "ESP", name: "Spain" },
+  { code: "ITA", name: "Italy" },
+  { code: "NLD", name: "Netherlands" },
+  { code: "SWE", name: "Sweden" },
+  { code: "NOR", name: "Norway" },
+  { code: "DNK", name: "Denmark" },
+  { code: "FIN", name: "Finland" },
+  { code: "CHE", name: "Switzerland" },
+  { code: "AUT", name: "Austria" },
 ];
 
 export const RegistrationForm = () => {
@@ -86,7 +110,7 @@ export const RegistrationForm = () => {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="firstName">First Name</Label>
+                  <Label htmlFor="firstName">Name <span className="text-destructive">*</span></Label>
                   <Input
                     id="firstName"
                     value={formData.firstName}
@@ -97,7 +121,7 @@ export const RegistrationForm = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="lastName">Last Name</Label>
+                  <Label htmlFor="lastName">Surname <span className="text-destructive">*</span></Label>
                   <Input
                     id="lastName"
                     value={formData.lastName}
@@ -149,17 +173,22 @@ export const RegistrationForm = () => {
 
               <div className="space-y-2">
                 <Label htmlFor="countryCode">Country Code</Label>
-                <Input
-                  id="countryCode"
-                  value={formData.countryCode}
-                  onChange={(e) => handleInputChange("countryCode", e.target.value)}
-                  placeholder="e.g., +1, +44, +33"
-                  required
-                />
+                <Select value={formData.countryCode} onValueChange={(value) => handleInputChange("countryCode", value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select country" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {countryCodes.map((country) => (
+                      <SelectItem key={country.code} value={country.code}>
+                        {country.code} - {country.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="passportNumber">Passport Number</Label>
+                <Label htmlFor="passportNumber">Passport Number <span className="text-destructive">*</span></Label>
                 <Input
                   id="passportNumber"
                   value={formData.passportNumber}
