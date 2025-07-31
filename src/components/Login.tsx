@@ -96,7 +96,7 @@ export const Login = () => {
               <p className="text-sm text-muted-foreground">
                 Don't have an account?{" "}
                 <Link 
-                  to="/register" 
+                  to="/email-registry" 
                   className="text-primary hover:underline font-medium"
                 >
                   Register here

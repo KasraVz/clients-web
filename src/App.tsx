@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import { WelcomeScreen } from "./components/WelcomeScreen";
+import { EmailRegistry } from "./components/EmailRegistry";
 import { EmailVerification } from "./components/EmailVerification";
 import { RegistrationForm } from "./components/RegistrationForm";
 import { ChooseYourPath } from "./components/ChooseYourPath";
@@ -28,7 +29,8 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<WelcomeScreen />} />
-          <Route path="/verify" element={<EmailVerification />} />
+          <Route path="/email-registry" element={<EmailRegistry />} />
+          <Route path="/email-verification" element={<EmailVerification />} />
           <Route path="/register" element={<RegistrationForm />} />
           <Route path="/choose-path" element={<ChooseYourPath />} />
           <Route path="/business-profile" element={<BusinessProfile />} />
