@@ -8,9 +8,10 @@ interface Step {
 
 interface ProgressBarProps {
   steps: Step[];
+  onStepClick?: (stepId: string) => void;
 }
 
-export const ProgressBar = ({ steps }: ProgressBarProps) => {
+export const ProgressBar = ({ steps, onStepClick }: ProgressBarProps) => {
   return (
     <div className="w-full mb-8">
       <div className="flex items-center justify-between">
@@ -20,10 +21,12 @@ export const ProgressBar = ({ steps }: ProgressBarProps) => {
               <div
                 className={cn(
                   "w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-300",
-                  step.status === 'completed' && "bg-success text-success-foreground",
+                  step.status === 'completed' && "bg-success text-success-foreground cursor-pointer hover:opacity-80",
                   step.status === 'current' && "bg-primary text-primary-foreground",
-                  step.status === 'upcoming' && "bg-muted text-muted-foreground"
+                  step.status === 'upcoming' && "bg-muted text-muted-foreground",
+                  onStepClick && step.status === 'completed' && "cursor-pointer"
                 )}
+                onClick={() => onStepClick && step.status === 'completed' && onStepClick(step.id)}
               >
                 {step.status === 'completed' ? '✓' : index + 1}
               </div>

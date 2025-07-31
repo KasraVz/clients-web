@@ -39,15 +39,25 @@ const pathOptions = [
 
 const steps = [
   { id: "register", label: "Register", status: "completed" as const },
-  { id: "identity", label: "Identity", status: "completed" as const },
+  { id: "identity", label: "Identity Data", status: "completed" as const },
   { id: "path", label: "Choose Path", status: "current" as const },
-  { id: "profile", label: "Profile", status: "upcoming" as const },
-  { id: "complete", label: "Complete", status: "upcoming" as const },
+  { id: "profile", label: "Business Profiling", status: "upcoming" as const },
 ];
 
 export const ChooseYourPath = () => {
   const [selectedPath, setSelectedPath] = useState<string>("");
   const navigate = useNavigate();
+
+  const handleStepClick = (stepId: string) => {
+    switch (stepId) {
+      case "register":
+        navigate("/register");
+        break;
+      case "identity":
+        navigate("/registration-form");
+        break;
+    }
+  };
 
   const handlePathSelect = (pathId: string) => {
     setSelectedPath(pathId);
@@ -57,6 +67,8 @@ export const ChooseYourPath = () => {
     // Navigate to appropriate profile screen
     switch (pathId) {
       case "single-founder":
+        navigate("/founder-dashboard");
+        break;
       case "team-founder":
         navigate("/business-profile");
         break;
@@ -74,7 +86,7 @@ export const ChooseYourPath = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/20 py-8 px-4">
       <div className="max-w-4xl mx-auto">
-        <ProgressBar steps={steps} />
+        <ProgressBar steps={steps} onStepClick={handleStepClick} />
         
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-foreground mb-4">Choose Your Path</h1>

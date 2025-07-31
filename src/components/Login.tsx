@@ -91,6 +91,18 @@ export const Login = () => {
                 Login
               </Button>
             </form>
+            
+            <div className="text-center mt-4 p-6 pt-0">
+              <p className="text-sm text-muted-foreground">
+                Don't have an account?{" "}
+                <Link 
+                  to="/register" 
+                  className="text-primary hover:underline font-medium"
+                >
+                  Register here
+                </Link>
+              </p>
+            </div>
           </CardContent>
         </Card>
       </div>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -75,6 +76,7 @@ interface TestBooking {
 
 export const IndividualFounderDashboard = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState('dashboard');
   const [userData, setUserData] = useState<UserData>({
     firstName: 'Pashmak',
@@ -188,6 +190,7 @@ export const IndividualFounderDashboard = () => {
       case 'dashboard':
         return (
           <div className="space-y-6">
+            <h1 className="text-2xl font-bold">Dashboard Home</h1>
             {/* Identity Document Upload Alert */}
             {!userData.passportUploaded && (
               <Alert>
@@ -635,7 +638,12 @@ export const IndividualFounderDashboard = () => {
         <header className="fixed top-0 left-0 w-full h-16 bg-background border-b shadow-sm flex items-center justify-between px-4 z-50">
           <div className="flex items-center gap-4">
             <SidebarTrigger className="md:hidden" />
-            <h1 className="text-lg font-semibold">Welcome {userData.firstName}</h1>
+            <button 
+              onClick={() => setActiveSection('dashboard')}
+              className="text-lg font-semibold hover:text-primary cursor-pointer"
+            >
+              Welcome {userData.firstName}
+            </button>
           </div>
           <div className="flex items-center gap-2">
             <Badge variant={userData.accountStatus === 'verified' ? 'default' : 'secondary'}>
@@ -653,10 +661,18 @@ export const IndividualFounderDashboard = () => {
                 <SidebarMenu>
                   {menuItems.map((item) => (
                     <SidebarMenuItem key={item.id}>
-                      <SidebarMenuButton 
-                        onClick={() => setActiveSection(item.id)}
-                        className={activeSection === item.id ? 'bg-accent text-accent-foreground' : ''}
-                      >
+                       <SidebarMenuButton 
+                         onClick={() => {
+                           if (item.id === 'logout') {
+                             sessionStorage.clear();
+                             localStorage.clear();
+                             navigate('/login');
+                           } else {
+                             setActiveSection(item.id);
+                           }
+                         }}
+                         className={activeSection === item.id ? 'bg-accent text-accent-foreground' : ''}
+                       >
                         <item.icon className="h-4 w-4" />
                         <span>{item.label}</span>
                       </SidebarMenuButton>

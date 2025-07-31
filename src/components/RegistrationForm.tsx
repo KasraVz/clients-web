@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,9 +15,9 @@ import { toast } from "@/hooks/use-toast";
 
 const steps = [
   { id: "register", label: "Register", status: "completed" as const },
-  { id: "identity", label: "Identity", status: "current" as const },
-  { id: "verification", label: "Verification", status: "upcoming" as const },
-  { id: "complete", label: "Complete", status: "upcoming" as const },
+  { id: "identity", label: "Identity Data", status: "current" as const },
+  { id: "path", label: "Choose Path", status: "upcoming" as const },
+  { id: "profile", label: "Business Profiling", status: "upcoming" as const },
 ];
 
 const countryCodes = [
@@ -67,6 +67,14 @@ export const RegistrationForm = () => {
     }
   };
 
+  const handleStepClick = (stepId: string) => {
+    switch (stepId) {
+      case "register":
+        navigate("/register");
+        break;
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -100,7 +108,7 @@ export const RegistrationForm = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/20 py-8 px-4">
       <div className="max-w-2xl mx-auto">
-        <ProgressBar steps={steps} />
+        <ProgressBar steps={steps} onStepClick={handleStepClick} />
         
         <Card className="shadow-lg">
           <CardHeader>
@@ -236,6 +244,18 @@ export const RegistrationForm = () => {
                 </Button>
               </div>
             </form>
+            
+            <div className="text-center mt-4 p-6 pt-0">
+              <p className="text-sm text-muted-foreground">
+                Already have an account?{" "}
+                <Link 
+                  to="/login" 
+                  className="text-primary hover:underline font-medium"
+                >
+                  Login here
+                </Link>
+              </p>
+            </div>
           </CardContent>
         </Card>
       </div>
