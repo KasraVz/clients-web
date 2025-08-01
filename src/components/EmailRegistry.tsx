@@ -31,7 +31,7 @@ export const EmailRegistry = () => {
       description: "Please check your email for the verification code.",
     });
     
-    navigate("/email-verification");
+    navigate("/verify");
   };
 
   return (
