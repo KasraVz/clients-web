@@ -53,15 +53,33 @@ export const MasterDetailDashboard = () => {
     {
       id: '1',
       type: 'alert',
-      content: 'In a polite way, you have 2 hours left until your FPA exam.',
+      content: "Politely, we'd like to remind you that your FPA exam begins in 2 hours. To review the rules and access the exam link, please click on the 'more' button below.",
       hasMoreLink: true,
       isRead: false
     },
     {
       id: '2',
       type: 'info',
-      content: 'The EEA exam you chose but you drop off at midjourney of its scheduling. It is 2 days left until it is canceled automatically if you don\'t complete the journey.',
+      content: "It looks like you've started scheduling your EEA exam but didn't finish. You have 2 days to complete the process before your session is automatically canceled.",
       isRead: false
+    },
+    {
+      id: '3',
+      type: 'alert',
+      content: "The deadline for the 'Future Innovator' scholarship is approaching. Please ensure you submit your application before the end of the week.",
+      isRead: false
+    },
+    {
+      id: '4',
+      type: 'info',
+      content: "Your team invitation to 'Project Nexus' has been successfully sent to all members.",
+      isRead: true
+    },
+    {
+      id: '5',
+      type: 'info',
+      content: "A new feature is available: You can now create custom study groups for any test in the Test Hub section.",
+      isRead: true
     }
   ];
 
@@ -212,21 +230,20 @@ export const MasterDetailDashboard = () => {
       {notifications.map((notification) => (
         <Card 
           key={notification.id}
-          className={`${
-            !notification.isRead ? 'border border-muted-foreground/20' : 'border-transparent'
+          className={`shadow-sm ${
+            !notification.isRead ? 'border border-muted-foreground/30' : 'border-transparent'
           } ${
             notification.type === 'alert' 
-              ? 'bg-orange-50/50' 
-              : 'bg-green-50/50'
+              ? notification.isRead ? 'bg-background' : 'bg-orange-50/30' 
+              : notification.isRead ? 'bg-background' : 'bg-green-50/30'
           }`}
         >
           <CardContent className="p-4">
-            <p className="text-sm">
+            <p className="text-sm leading-relaxed">
               {notification.content}
               {notification.hasMoreLink && (
-                <a href="#" className="text-primary hover:underline ml-1">
+                <a href="#" className="text-blue-600 hover:underline ml-1">
                   more
-                  <ExternalLink className="inline w-3 h-3 ml-1" />
                 </a>
               )}
             </p>
