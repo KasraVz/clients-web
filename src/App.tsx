@@ -17,6 +17,7 @@ import { Login } from "./components/Login";
 import { ForgotPassword } from "./components/ForgotPassword";
 import { ResetPassword } from "./components/ResetPassword";
 import { IndividualFounderDashboard } from "./components/IndividualFounderDashboard";
+import { MasterDetailDashboard } from "./components/MasterDetailDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -41,7 +42,8 @@ const App = () => (
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/founder-dashboard" element={<IndividualFounderDashboard />} />
-          <Route path="/dashboard" element={<Index />} />
+          <Route path="/dashboard" element={<MasterDetailDashboard />} />
+          <Route path="/welcome" element={<Index />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
