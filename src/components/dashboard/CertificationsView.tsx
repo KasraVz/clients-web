@@ -74,7 +74,9 @@ export const CertificationsView = () => {
       return (
         <Tooltip>
           <TooltipTrigger asChild>
-            {button}
+            <span className="inline-block cursor-not-allowed">
+              {button}
+            </span>
           </TooltipTrigger>
           <TooltipContent>
             <p>{tooltipText}</p>
