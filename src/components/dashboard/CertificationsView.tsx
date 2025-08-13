@@ -72,16 +72,14 @@ export const CertificationsView = () => {
 
     if (disabled && tooltipText) {
       return (
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              {button}
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>{tooltipText}</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            {button}
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>{tooltipText}</p>
+          </TooltipContent>
+        </Tooltip>
       );
     }
 
@@ -89,7 +87,7 @@ export const CertificationsView = () => {
   };
 
   return (
-    <>
+    <TooltipProvider>
       <Card className="shadow-lg">
         <CardContent className="p-6">
           <h2 className="text-2xl font-bold mb-6">Certifications</h2>
@@ -175,6 +173,6 @@ export const CertificationsView = () => {
           </div>
         </DialogContent>
       </Dialog>
-    </>
+    </TooltipProvider>
   );
 };
