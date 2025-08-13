@@ -64,23 +64,8 @@ export const ChooseYourPath = () => {
     // Store the selected path for later use
     sessionStorage.setItem("selectedPath", pathId);
     
-    // Navigate to appropriate profile screen
-    switch (pathId) {
-      case "single-founder":
-        navigate("/founder-dashboard");
-        break;
-      case "team-founder":
-        navigate("/business-profile");
-        break;
-      case "individual-partner":
-        navigate("/individual-partner-profile");
-        break;
-      case "entity-partner":
-        navigate("/entity-partner-profile");
-        break;
-      default:
-        break;
-    }
+    // Always navigate to secure account page first
+    navigate("/secure-account");
   };
 
   return (
