@@ -64,8 +64,8 @@ export const ChooseYourPath = () => {
     // Store the selected path for later use
     sessionStorage.setItem("selectedPath", pathId);
     
-    // Always navigate to secure account page first
-    navigate("/secure-account");
+    // Navigate to business profile
+    navigate("/business-profile");
   };
 
   return (
