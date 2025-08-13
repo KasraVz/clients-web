@@ -3,48 +3,76 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Upload, Camera, HelpCircle, Mail, FileText, CheckCircle, XCircle, Users, User } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Home, Bell, Upload, Camera, HelpCircle, CheckCircle, XCircle, ExternalLink } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-type DetailView = 'photo' | 'profile' | null;
+type DetailView = 'photo' | 'profile' | 'notifications' | null;
+
+interface Notification {
+  id: string;
+  type: 'alert' | 'info';
+  content: string;
+  hasMoreLink?: boolean;
+  isRead?: boolean;
+}
 
 interface UserData {
   name: string;
   email: string;
   passportId: string;
+  profilePhoto: string | null;
   isVerified: boolean;
-  isOnLeaderboard: boolean;
+  onLeaderboard: boolean;
   isTeamMember: boolean;
-  hasPassportUploaded: boolean;
 }
 
 export const MasterDetailDashboard = () => {
-  const [activeDetailView, setActiveDetailView] = useState<DetailView>(null);
+  const [activeView, setActiveView] = useState<DetailView>(null);
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [newEmail, setNewEmail] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
-  const [showVerificationStep, setShowVerificationStep] = useState(false);
-  const [countdown, setCountdown] = useState(300); // 5 minutes in seconds
+  const [countdown, setCountdown] = useState(0);
+  const [notificationCount, setNotificationCount] = useState(2);
   const { toast } = useToast();
 
-  // Mock user data
-  const [userData, setUserData] = useState<UserData>({
+  const userData: UserData = {
     name: "John Smith",
     email: "john.smith@example.com",
-    passportId: "AB1234567",
+    passportId: "123456789",
+    profilePhoto: null,
     isVerified: true,
-    isOnLeaderboard: true,
-    isTeamMember: false,
-    hasPassportUploaded: true
-  });
+    onLeaderboard: false,
+    isTeamMember: false
+  };
+
+  const notifications: Notification[] = [
+    {
+      id: '1',
+      type: 'alert',
+      content: 'In a polite way, you have 2 hours left until your FPA exam.',
+      hasMoreLink: true,
+      isRead: false
+    },
+    {
+      id: '2',
+      type: 'info',
+      content: 'The EEA exam you chose but you drop off at midjourney of its scheduling. It is 2 days left until it is canceled automatically if you don\'t complete the journey.',
+      isRead: false
+    }
+  ];
+
+  const handleNotificationClick = () => {
+    setActiveView('notifications');
+    setNotificationCount(0);
+  };
 
   const handleEmailSubmit = () => {
-    setShowVerificationStep(true);
-    // Start countdown
+    // Mock email verification process
+    setCountdown(300); // 5 minutes
     const timer = setInterval(() => {
       setCountdown(prev => {
         if (prev <= 1) {
@@ -61,20 +89,6 @@ export const MasterDetailDashboard = () => {
     });
   };
 
-  const handleVerificationSubmit = () => {
-    setUserData(prev => ({ ...prev, email: newEmail }));
-    setIsEmailModalOpen(false);
-    setShowVerificationStep(false);
-    setNewEmail('');
-    setVerificationCode('');
-    setCountdown(300);
-    
-    toast({
-      title: "Email updated successfully",
-      description: "Your email address has been changed."
-    });
-  };
-
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -82,18 +96,16 @@ export const MasterDetailDashboard = () => {
   };
 
   const renderPhotoDetailView = () => (
-    <div className="flex flex-col items-center justify-center space-y-8 py-12">
-      <div className="relative">
-        <Avatar className="w-72 h-72">
-          <AvatarImage src="/placeholder.svg" alt={userData.name} />
-          <AvatarFallback className="text-6xl font-bold">
-            {userData.name.split(' ').map(n => n[0]).join('')}
-          </AvatarFallback>
-        </Avatar>
-      </div>
+    <div className="flex flex-col items-center justify-center space-y-6">
+      <Avatar className="w-72 h-72">
+        <AvatarImage src={userData.profilePhoto || undefined} />
+        <AvatarFallback className="text-6xl">
+          {userData.name.split(' ').map(n => n[0]).join('')}
+        </AvatarFallback>
+      </Avatar>
       
-      <div className="flex flex-col sm:flex-row gap-4">
-        <Button className="flex items-center gap-2">
+      <div className="flex gap-4">
+        <Button variant="outline" className="flex items-center gap-2">
           <Upload className="w-4 h-4" />
           Upload new photo
         </Button>
@@ -102,216 +114,153 @@ export const MasterDetailDashboard = () => {
           Take photo
         </Button>
       </div>
-      
-      <div className="flex items-center gap-2">
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant="ghost" size="sm" className="p-1">
-                <HelpCircle className="w-4 h-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <div className="max-w-xs">
-                <p className="font-medium mb-2">Photo Requirements:</p>
-                <ul className="text-sm space-y-1">
-                  <li>• Clear, high-resolution image</li>
-                  <li>• Face clearly visible</li>
-                  <li>• No filters or editing</li>
-                  <li>• Professional appearance</li>
-                  <li>• JPEG or PNG format</li>
-                </ul>
-              </div>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-        <span className="text-sm text-muted-foreground">Photo rules and conditions</span>
-      </div>
-      
-      <Button size="lg" className="px-12">
-        Save Changes
-      </Button>
+
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger>
+            <HelpCircle className="w-5 h-5 text-muted-foreground cursor-help" />
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Photo should be clear, well-lit, and show your face clearly.<br/>
+            Accepted formats: JPG, PNG. Max size: 5MB.</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+
+      <Button className="w-full max-w-md">Save Changes</Button>
     </div>
   );
 
   const renderProfileDetailView = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 py-6">
-      {/* Name Field */}
-      <div className="space-y-2">
-        <Label htmlFor="name">Name</Label>
-        <Input
-          id="name"
-          value={userData.name}
-          disabled
-          className="bg-muted"
-        />
-      </div>
-
-      {/* Email Field */}
-      <div className="space-y-2">
-        <Label htmlFor="email">Email</Label>
-        <div className="flex gap-2">
-          <Input
-            id="email"
-            value={userData.email}
-            disabled
-            className="bg-muted flex-1"
-          />
-          <Dialog open={isEmailModalOpen} onOpenChange={setIsEmailModalOpen}>
-            <DialogTrigger asChild>
-              <Button variant="outline" size="sm" className="flex items-center gap-1">
-                <Mail className="w-3 h-3" />
-                Change email
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
-              <DialogHeader>
-                <DialogTitle>Change Email Address</DialogTitle>
-              </DialogHeader>
-              
-              {!showVerificationStep ? (
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="new-email">Enter your new email</Label>
-                    <Input
-                      id="new-email"
-                      type="email"
-                      value={newEmail}
-                      onChange={(e) => setNewEmail(e.target.value)}
-                      placeholder="new.email@example.com"
-                    />
-                  </div>
-                  <Button onClick={handleEmailSubmit} className="w-full">
-                    Send Verification Code
-                  </Button>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="verification-code">
-                      A code is sent to your email, please put it here
-                    </Label>
-                    <Input
-                      id="verification-code"
-                      value={verificationCode}
-                      onChange={(e) => setVerificationCode(e.target.value)}
-                      placeholder="Enter verification code"
-                      maxLength={6}
-                    />
-                    <p className="text-sm text-muted-foreground">
-                      Code expires in: {formatTime(countdown)}
-                    </p>
-                  </div>
-                  <Button onClick={handleVerificationSubmit} className="w-full">
-                    Verify and Update Email
-                  </Button>
-                </div>
-              )}
-            </DialogContent>
-          </Dialog>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+      <div className="space-y-4">
+        <div>
+          <Label htmlFor="name">Full Name</Label>
+          <Input id="name" value={userData.name} disabled className="mt-1" />
         </div>
-      </div>
 
-      {/* Passport ID Field */}
-      <div className="space-y-2">
-        <Label htmlFor="passport">Passport ID</Label>
-        <div className="flex gap-2">
-          <Input
-            id="passport"
-            value={userData.passportId}
-            disabled
-            className="bg-muted flex-1"
-          />
-          {userData.hasPassportUploaded ? (
-            <Card className="flex-1">
-              <CardContent className="p-3 flex items-center gap-2">
-                <FileText className="w-4 h-4 text-primary" />
-                <span className="text-sm">Passport uploaded</span>
-              </CardContent>
-            </Card>
-          ) : (
-            <Button variant="outline" size="sm" className="flex items-center gap-1">
-              <Upload className="w-3 h-3" />
-              Upload
+        <div>
+          <Label htmlFor="email">Email Address</Label>
+          <div className="flex gap-2 mt-1">
+            <Input id="email" value={userData.email} disabled className="flex-1" />
+            <Button 
+              variant="link" 
+              onClick={() => setIsEmailModalOpen(true)}
+              className="text-primary"
+            >
+              Change email
             </Button>
-          )}
+          </div>
+        </div>
+
+        <div>
+          <Label htmlFor="passport">Passport ID</Label>
+          <Input id="passport" value={userData.passportId} disabled className="mt-1" />
         </div>
       </div>
 
-      {/* Verification Status */}
-      <div className="space-y-2">
-        <Label>Verification Status</Label>
-        <div className="flex items-center gap-2">
-          {userData.isVerified ? (
-            <>
-              <CheckCircle className="w-4 h-4 text-success" />
-              <Badge variant="secondary" className="bg-success/10 text-success">
-                Verified
-              </Badge>
-            </>
-          ) : (
-            <>
-              <XCircle className="w-4 h-4 text-destructive" />
-              <Badge variant="secondary" className="bg-destructive/10 text-destructive">
-                Unverified
-              </Badge>
-            </>
-          )}
+      <div className="space-y-4">
+        <div>
+          <Label>Passport Document</Label>
+          <div className="mt-1 p-4 border-2 border-dashed border-muted-foreground/25 rounded-lg">
+            <Button variant="outline" className="w-full">
+              <Upload className="w-4 h-4 mr-2" />
+              Upload Passport
+            </Button>
+          </div>
         </div>
-      </div>
 
-      {/* Leaderboard Status */}
-      <div className="space-y-2">
-        <Label>Leaderboard Status</Label>
-        <p className="text-sm text-foreground">
-          {userData.isOnLeaderboard 
-            ? "You are on the leaderboard" 
-            : "You are not currently on the leaderboard"
-          }
-        </p>
-      </div>
+        <div>
+          <Label>Verification Status</Label>
+          <div className="flex items-center gap-2 mt-1">
+            {userData.isVerified ? (
+              <>
+                <CheckCircle className="w-5 h-5 text-green-500" />
+                <Badge variant="secondary" className="bg-green-100 text-green-800">
+                  Verified
+                </Badge>
+              </>
+            ) : (
+              <>
+                <XCircle className="w-5 h-5 text-red-500" />
+                <Badge variant="destructive">Unverified</Badge>
+              </>
+            )}
+          </div>
+        </div>
 
-      {/* Team/Individual Status */}
-      <div className="space-y-2">
-        <Label>Membership Status</Label>
-        <div className="flex items-center gap-2">
-          {userData.isTeamMember ? (
-            <>
-              <Users className="w-4 h-4 text-primary" />
-              <span className="text-sm text-foreground">You are part of a team</span>
-            </>
-          ) : (
-            <>
-              <User className="w-4 h-4 text-muted-foreground" />
-              <span className="text-sm text-foreground">You are an individual founder</span>
-            </>
-          )}
+        <div>
+          <Label>Leaderboard Status</Label>
+          <p className="text-sm text-muted-foreground mt-1">
+            {userData.onLeaderboard ? 'On Leaderboard' : 'Not on Leaderboard'}
+          </p>
+        </div>
+
+        <div>
+          <Label>Status</Label>
+          <p className="text-sm text-muted-foreground mt-1">
+            {userData.isTeamMember ? 'Team Member' : 'Individual Founder'}
+          </p>
         </div>
       </div>
     </div>
   );
 
+  const renderNotificationDetailView = () => (
+    <div className="max-w-xl mx-auto space-y-4">
+      <h2 className="text-2xl font-bold text-center mb-6">Notifications</h2>
+      {notifications.map((notification) => (
+        <Card 
+          key={notification.id}
+          className={`${
+            !notification.isRead ? 'border border-muted-foreground/20' : 'border-transparent'
+          } ${
+            notification.type === 'alert' 
+              ? 'bg-orange-50/50' 
+              : 'bg-green-50/50'
+          }`}
+        >
+          <CardContent className="p-4">
+            <p className="text-sm">
+              {notification.content}
+              {notification.hasMoreLink && (
+                <a href="#" className="text-primary hover:underline ml-1">
+                  more
+                  <ExternalLink className="inline w-3 h-3 ml-1" />
+                </a>
+              )}
+            </p>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+
   const renderMainContent = () => {
-    if (!activeDetailView) {
+    if (!activeView) {
       return (
-        <div className="flex items-center justify-center h-full">
+        <div className="flex items-center justify-center h-64">
           <div className="text-center space-y-4">
-            <h2 className="text-2xl font-semibold text-muted-foreground">
-              Welcome to your Dashboard
-            </h2>
-            <p className="text-muted-foreground">
-              Click on your profile photo or name in the header to get started
+            <img 
+              src="/placeholder.svg" 
+              alt="Supsindex Logo" 
+              className="w-48 h-48 mx-auto opacity-50"
+            />
+            <p className="text-lg text-muted-foreground">
+              Click an item in the header to get started
             </p>
           </div>
         </div>
       );
     }
 
-    switch (activeDetailView) {
+    switch (activeView) {
       case 'photo':
         return renderPhotoDetailView();
       case 'profile':
         return renderProfileDetailView();
+      case 'notifications':
+        return renderNotificationDetailView();
       default:
         return null;
     }
@@ -319,34 +268,104 @@ export const MasterDetailDashboard = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header/Top Bar (Persistent Master View) */}
-      <header className="fixed top-0 left-0 w-full h-16 bg-background shadow-md flex items-center px-4 z-50 border-b">
+      {/* Header */}
+      <header className="fixed top-0 left-0 w-full h-16 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border flex items-center justify-between px-4 z-50">
         {/* Profile Master Item */}
         <div className="flex items-center gap-3">
           <Avatar 
-            className="w-10 h-10 cursor-pointer hover:ring-2 hover:ring-primary/20 transition-all"
-            onClick={() => setActiveDetailView('photo')}
+            className="w-10 h-10 cursor-pointer hover:ring-2 hover:ring-primary hover:ring-offset-2 transition-all"
+            onClick={() => setActiveView('photo')}
           >
-            <AvatarImage src="/placeholder.svg" alt={userData.name} />
+            <AvatarImage src={userData.profilePhoto || undefined} />
             <AvatarFallback>
               {userData.name.split(' ').map(n => n[0]).join('')}
             </AvatarFallback>
           </Avatar>
-          <h1 
+          <span 
             className="text-lg font-semibold cursor-pointer hover:text-primary transition-colors"
-            onClick={() => setActiveDetailView('profile')}
+            onClick={() => setActiveView('profile')}
           >
             {userData.name}
-          </h1>
+          </span>
+        </div>
+
+        {/* Action Items */}
+        <div className="flex items-center gap-4">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setActiveView(null)}
+            className="hover:bg-muted"
+          >
+            <Home className="w-5 h-5" />
+          </Button>
+          
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={handleNotificationClick}
+            className="relative hover:bg-muted"
+          >
+            <Bell className="w-5 h-5" />
+            {notificationCount > 0 && (
+              <Badge 
+                variant="destructive" 
+                className="absolute -top-1 -right-1 min-w-[1.25rem] h-5 flex items-center justify-center text-xs"
+              >
+                {notificationCount}
+              </Badge>
+            )}
+          </Button>
         </div>
       </header>
 
-      {/* Main Content Area (Dynamic Detail View) */}
-      <main className="mt-16 p-6 w-full min-h-[calc(100vh-4rem)] overflow-auto">
-        <div className="max-w-4xl mx-auto">
-          {renderMainContent()}
-        </div>
+      {/* Main Content Area */}
+      <main className="mt-16 p-6 overflow-auto w-full min-h-[calc(100vh-4rem)]">
+        {renderMainContent()}
       </main>
+
+      {/* Email Change Modal */}
+      <Dialog open={isEmailModalOpen} onOpenChange={setIsEmailModalOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Change Email Address</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="new-email">New Email Address</Label>
+              <Input
+                id="new-email"
+                type="email"
+                value={newEmail}
+                onChange={(e) => setNewEmail(e.target.value)}
+                placeholder="Enter your new email"
+                className="mt-1"
+              />
+            </div>
+            <div>
+              <Label htmlFor="verification-code">Verification Code</Label>
+              <Input
+                id="verification-code"
+                value={verificationCode}
+                onChange={(e) => setVerificationCode(e.target.value)}
+                placeholder="Enter verification code"
+                className="mt-1"
+              />
+              {countdown > 0 && (
+                <p className="text-sm text-muted-foreground mt-1">
+                  Resend code in {formatTime(countdown)}
+                </p>
+              )}
+            </div>
+            <div className="flex gap-2">
+              <Button variant="outline" onClick={() => setIsEmailModalOpen(false)}>
+                Cancel
+              </Button>
+              <Button onClick={handleEmailSubmit}>Update Email</Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
