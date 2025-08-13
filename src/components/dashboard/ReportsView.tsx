@@ -93,13 +93,13 @@ export const ReportsView = () => {
 
   return (
     <div className="w-full flex items-center justify-center min-h-[60vh]">
-      <div className="w-full max-w-6xl">
+      <div className="w-full max-w-7xl px-4">
         <TooltipProvider>
       <Card className="shadow-lg">
         <CardContent className="p-6">
           <h2 className="text-2xl font-bold mb-6">Reports</h2>
           <div className="overflow-x-auto">
-            <Table>
+            <Table className="min-w-full table-auto">
               <TableHeader>
                 <TableRow>
                   <TableHead>Report ID</TableHead>

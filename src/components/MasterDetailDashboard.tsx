@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Home, Bell, Upload, Camera, HelpCircle, CheckCircle, XCircle } from "lucide-react";
+import supsindexLogo from "@/assets/supsindex-logo.png";
 import { useToast } from "@/hooks/use-toast";
 import { DashboardSidebar } from "./DashboardSidebar";
 import { FastTrakView } from "./dashboard/FastTrakView";
@@ -261,12 +262,13 @@ export const MasterDetailDashboard = () => {
   const renderMainContent = () => {
     if (!activeView) {
       return (
-        <div className="flex items-center justify-center h-64">
-          <div className="text-center space-y-4">
+        <div className="flex items-center justify-center h-96">
+          <div className="text-center space-y-6">
             <img 
-              src="/placeholder.svg" 
+              src={supsindexLogo} 
               alt="Supsindex Logo" 
-              className="w-48 h-48 mx-auto opacity-50"
+              className="w-64 h-auto mx-auto opacity-70 bg-transparent"
+              style={{ mixBlendMode: 'multiply' }}
             />
             <p className="text-lg text-muted-foreground">
               Click an item in the sidebar to get started
