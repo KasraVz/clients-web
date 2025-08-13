@@ -92,7 +92,9 @@ export const ReportsView = () => {
   };
 
   return (
-    <TooltipProvider>
+    <div className="w-full flex items-center justify-center min-h-[60vh]">
+      <div className="w-full max-w-6xl">
+        <TooltipProvider>
       <Card className="shadow-lg">
         <CardContent className="p-6">
           <h2 className="text-2xl font-bold mb-6">Reports</h2>
@@ -180,6 +182,8 @@ export const ReportsView = () => {
           </div>
         </DialogContent>
       </Dialog>
-    </TooltipProvider>
+        </TooltipProvider>
+      </div>
+    </div>
   );
 };
