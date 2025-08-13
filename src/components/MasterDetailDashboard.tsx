@@ -7,10 +7,15 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Home, Bell, Upload, Camera, HelpCircle, CheckCircle, XCircle, ExternalLink } from "lucide-react";
+import { Home, Bell, Upload, Camera, HelpCircle, CheckCircle, XCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { DashboardSidebar } from "./dashboard/DashboardSidebar";
+import { FastTrakView } from "./dashboard/FastTrakView";
+import { SpecialOfferView } from "./dashboard/SpecialOfferView";
+import { ReportsView } from "./dashboard/ReportsView";
+import { CertificationsView } from "./dashboard/CertificationsView";
 
-type DetailView = 'photo' | 'profile' | 'notifications' | null;
+type DetailView = 'photo' | 'profile' | 'notifications' | 'fast-trak' | 'special-offer' | 'reports' | 'certifications' | null;
 
 interface Notification {
   id: string;
@@ -264,7 +269,7 @@ export const MasterDetailDashboard = () => {
               className="w-48 h-48 mx-auto opacity-50"
             />
             <p className="text-lg text-muted-foreground">
-              Click an item in the header to get started
+              Click an item in the sidebar to get started
             </p>
           </div>
         </div>
@@ -278,9 +283,21 @@ export const MasterDetailDashboard = () => {
         return renderProfileDetailView();
       case 'notifications':
         return renderNotificationDetailView();
+      case 'fast-trak':
+        return <FastTrakView />;
+      case 'special-offer':
+        return <SpecialOfferView />;
+      case 'reports':
+        return <ReportsView />;
+      case 'certifications':
+        return <CertificationsView />;
       default:
         return null;
     }
+  };
+
+  const handleSidebarItemSelect = (itemId: string) => {
+    setActiveView(itemId as DetailView);
   };
 
   return (
@@ -336,8 +353,14 @@ export const MasterDetailDashboard = () => {
         </div>
       </header>
 
+      {/* Sidebar */}
+      <DashboardSidebar 
+        onItemSelect={handleSidebarItemSelect}
+        selectedItem={activeView}
+      />
+
       {/* Main Content Area */}
-      <main className="mt-16 p-6 overflow-auto w-full min-h-[calc(100vh-4rem)]">
+      <main className="md:ml-64 mt-16 p-6 overflow-auto w-full min-h-[calc(100vh-4rem)]">
         {renderMainContent()}
       </main>
 
