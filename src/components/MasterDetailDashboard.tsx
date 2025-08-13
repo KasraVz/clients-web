@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Home, Bell, Upload, Camera, HelpCircle, CheckCircle, XCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { DashboardSidebar } from "./dashboard/DashboardSidebar";
+import { DashboardSidebar } from "./DashboardSidebar";
 import { FastTrakView } from "./dashboard/FastTrakView";
 import { SpecialOfferView } from "./dashboard/SpecialOfferView";
 import { ReportsView } from "./dashboard/ReportsView";
