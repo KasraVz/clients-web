@@ -17,6 +17,7 @@ import { Login } from "./components/Login";
 import { ForgotPassword } from "./components/ForgotPassword";
 import { ResetPassword } from "./components/ResetPassword";
 import { CompleteDashboard } from "./components/CompleteDashboard";
+import MasterDetailCompleteDashboard from "./components/MasterDetailCompleteDashboard";
 
 import NotFound from "./pages/NotFound";
 
@@ -41,7 +42,7 @@ const App = () => (
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/dashboard" element={<CompleteDashboard />} />
+          <Route path="/dashboard" element={<MasterDetailCompleteDashboard />} />
           <Route path="/welcome" element={<Index />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
