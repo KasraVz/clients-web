@@ -64,9 +64,9 @@ export const CertificationsView = () => {
         size="icon"
         onClick={onClick}
         disabled={disabled}
-        className="h-8 w-8"
+        className="h-6 w-6 p-0"
       >
-        <Icon className="h-4 w-4" />
+        <Icon className="h-3 w-3" />
       </Button>
     );
 
@@ -90,36 +90,36 @@ export const CertificationsView = () => {
 
   return (
     <div className="w-full">
-      <div className="w-full max-w-4xl mx-auto px-4">
+      <div className="w-full max-w-full mx-auto px-2">
         <TooltipProvider>
       <Card className="shadow-lg">
-        <CardContent className="p-4">
-          <h2 className="text-xl font-bold mb-4">Certifications</h2>
+        <CardContent className="p-3">
+          <h2 className="text-lg font-bold mb-3">Certifications</h2>
           <div className="w-full">
-            <Table className="w-full">
+            <Table className="w-full text-xs">
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-16 text-xs">ID</TableHead>
-                  <TableHead className="w-20 text-xs">Date</TableHead>
-                  <TableHead className="flex-1 text-xs">Name</TableHead>
-                  <TableHead className="w-16 text-xs">Status</TableHead>
-                  <TableHead className="w-12 text-xs">View</TableHead>
-                  <TableHead className="w-12 text-xs">Get</TableHead>
-                  <TableHead className="w-12 text-xs">Share</TableHead>
+                  <TableHead className="w-12 p-1 text-xs">ID</TableHead>
+                  <TableHead className="w-16 p-1 text-xs">Date</TableHead>
+                  <TableHead className="p-1 text-xs">Test</TableHead>
+                  <TableHead className="w-12 p-1 text-xs">Status</TableHead>
+                  <TableHead className="w-8 p-1 text-xs">👁</TableHead>
+                  <TableHead className="w-8 p-1 text-xs">📁</TableHead>
+                  <TableHead className="w-8 p-1 text-xs">📤</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {certifications.map((cert) => (
                   <TableRow key={cert.id}>
-                    <TableCell className="font-mono text-xs p-2">{cert.id.replace('#CERT-', '')}</TableCell>
-                    <TableCell className="text-xs p-2">{cert.testDate}</TableCell>
-                    <TableCell className="font-medium text-xs p-2">{cert.testName}</TableCell>
-                    <TableCell className="p-2">
+                    <TableCell className="font-mono text-xs p-1">{cert.id.replace('#CERT-', '')}</TableCell>
+                    <TableCell className="text-xs p-1">{cert.testDate.replace('/2025', '')}</TableCell>
+                    <TableCell className="font-medium text-xs p-1">{cert.testName}</TableCell>
+                    <TableCell className="p-1">
                       <Badge 
                         variant={cert.status === 'Valid' ? 'secondary' : 'destructive'}
-                        className={`text-xs px-1 py-0 ${cert.status === 'Valid' ? 'bg-green-100 text-green-800' : ''}`}
+                        className={`text-xs px-1 py-0 h-4 ${cert.status === 'Valid' ? 'bg-green-100 text-green-800' : ''}`}
                       >
-                        {cert.status}
+                        {cert.status === 'Valid' ? '✓' : '✗'}
                       </Badge>
                     </TableCell>
                     <TableCell className="p-1">
