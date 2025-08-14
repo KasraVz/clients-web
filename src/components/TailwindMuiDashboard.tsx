@@ -541,21 +541,30 @@ export const TailwindMuiDashboard = () => {
     }
   };
 
+  console.log('TailwindMuiDashboard rendering, userData:', userData);
+  
   return (
-    <div className="h-screen w-full overflow-x-hidden flex flex-col">
+    <div className="h-screen w-full overflow-x-hidden flex flex-col bg-gray-50">
       {/* Header */}
       <header className="fixed top-0 left-0 w-full h-16 bg-white shadow-md flex items-center justify-between px-4 z-50 max-w-full">
         {/* Profile Master Item */}
         <div className="flex items-center gap-3">
           <Avatar 
             className="!w-10 !h-10 cursor-pointer hover:ring-2 hover:ring-blue-500 hover:ring-offset-2 transition-all"
-            onClick={() => setActiveView('profile-photo')}
+            onClick={() => {
+              console.log('Avatar clicked, setting profile-photo view');
+              setActiveView('profile-photo');
+            }}
+            sx={{ backgroundColor: '#1976d2', color: 'white' }}
           >
             {userData.name.split(' ').map(n => n[0]).join('')}
           </Avatar>
           <span 
-            className="text-lg font-semibold cursor-pointer hover:text-blue-600 transition-colors"
-            onClick={() => setActiveView('profile-info')}
+            className="text-lg font-semibold cursor-pointer hover:text-blue-600 transition-colors text-gray-800"
+            onClick={() => {
+              console.log('Name clicked, setting profile-info view');
+              setActiveView('profile-info');
+            }}
           >
             {userData.name}
           </span>
