@@ -681,8 +681,10 @@ export const CompleteDashboard = () => {
         </aside>
 
         {/* Main Content */}
-        <main className="md:ml-64 mt-16 p-6 flex flex-col justify-center items-center overflow-x-hidden overflow-y-auto min-h-[calc(100vh-4rem)]">
-          {renderMainContent()}
+        <main className="md:ml-64 mt-16 overflow-x-hidden overflow-y-auto min-h-[calc(100vh-4rem)]">
+          <div className="w-full h-full flex flex-col justify-center items-center p-8">
+            {renderMainContent()}
+          </div>
         </main>
       </div>
 
