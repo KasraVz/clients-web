@@ -310,7 +310,7 @@ export const CompleteDashboard = () => {
   );
 
   const renderFastTrakView = () => (
-    <div className="w-full h-full flex flex-col items-center justify-center p-8">
+    <div className="w-full h-full flex flex-col items-center justify-center p-8" style={{ paddingLeft: '248px' }}>
       <div className="max-w-2xl w-full">
         <Card elevation={3}>
           <CardContent className="text-center py-8">
