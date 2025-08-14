@@ -1588,7 +1588,8 @@ const MasterDetailCompleteDashboard: React.FC = () => {
             top: 64,
             height: 'calc(100vh - 64px)',
             backgroundColor: 'white',
-            boxShadow: '2px 0 4px rgba(0,0,0,0.1)'
+            boxShadow: '2px 0 4px rgba(0,0,0,0.1)',
+            zIndex: 30
           },
         }}
       >
@@ -1934,8 +1935,8 @@ const MasterDetailCompleteDashboard: React.FC = () => {
       </Dialog>
 
       {/* Footer */}
-      <footer className="fixed bottom-0 left-0 w-full h-16 bg-white shadow-md flex items-center justify-between px-4 z-50"
-        style={{ zIndex: 60 }}
+      <footer className="fixed bottom-0 left-0 w-full h-16 bg-white shadow-md flex items-center justify-between px-4"
+        style={{ zIndex: 100 }}
       >
         <Button 
           variant="text" 
