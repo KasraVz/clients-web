@@ -1,7 +1,7 @@
-import { MuiDashboard } from "@/components/MuiDashboard";
+import { CompleteDashboard } from "@/components/CompleteDashboard";
 
 const Dashboard = () => {
-  return <MuiDashboard />;
+  return <CompleteDashboard />;
 };
 
 export default Dashboard;
