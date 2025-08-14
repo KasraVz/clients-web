@@ -247,7 +247,7 @@ const MasterDetailCompleteDashboard: React.FC = () => {
   const renderWelcomeView = () => (
     <div className="h-full flex flex-col items-center justify-center space-y-4">
       <img 
-        src="src/assets/supsindex-logo.png" 
+        src="/lovable-uploads/8a0dff28-ea84-44a3-a3c2-fe796bcb4004.png" 
         alt="Supsindex Logo" 
         className="w-64 h-auto"
       />
