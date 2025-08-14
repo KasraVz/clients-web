@@ -16,7 +16,7 @@ import { SecureAccount } from "./components/SecureAccount";
 import { Login } from "./components/Login";
 import { ForgotPassword } from "./components/ForgotPassword";
 import { ResetPassword } from "./components/ResetPassword";
-import { TailwindMuiDashboard } from "./components/TailwindMuiDashboard";
+import { CompleteDashboard } from "./components/CompleteDashboard";
 
 import NotFound from "./pages/NotFound";
 
@@ -41,7 +41,7 @@ const App = () => (
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/dashboard" element={<TailwindMuiDashboard />} />
+          <Route path="/dashboard" element={<CompleteDashboard />} />
           <Route path="/welcome" element={<Index />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
