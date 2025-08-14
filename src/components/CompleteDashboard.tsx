@@ -172,14 +172,10 @@ export const CompleteDashboard = () => {
   const renderProfilePhotoView = () => (
     <div className="flex flex-col items-center justify-center min-h-full p-6">
       <div className="flex flex-col items-center space-y-6 max-w-md w-full">
-        <Avatar 
+        <Avatar className="w-72 h-72 text-6xl border-4 border-blue-100"
           sx={{ 
-            width: 288, 
-            height: 288, 
-            fontSize: '4rem',
             backgroundColor: '#1976d2',
             color: 'white',
-            border: '4px solid #e3f2fd'
           }}
         >
           {userData.name.split(' ').map(n => n[0]).join('')}
@@ -559,17 +555,15 @@ export const CompleteDashboard = () => {
   };
 
   return (
-    <div className="h-screen w-full overflow-x-hidden flex flex-col bg-gray-50">
+    <div className="h-screen w-full overflow-x-hidden flex flex-col">
       {/* Header */}
-      <header className="fixed top-0 left-0 w-full h-16 bg-white shadow-md flex items-center justify-between px-4 z-50 max-w-full">
+      <header className="fixed top-0 left-0 w-full h-16 bg-white shadow-md flex items-center justify-between px-4 z-50">
         {/* Profile Master Item */}
         <div className="flex items-center gap-3">
           <Avatar 
+            className="w-10 h-10 rounded-full cursor-pointer"
             onClick={() => setActiveView('profile-photo')}
             sx={{ 
-              width: 40, 
-              height: 40, 
-              cursor: 'pointer',
               backgroundColor: '#1976d2',
               color: 'white',
               '&:hover': { 
@@ -581,7 +575,7 @@ export const CompleteDashboard = () => {
             {userData.name.split(' ').map(n => n[0]).join('')}
           </Avatar>
           <span 
-            className="text-lg font-semibold cursor-pointer hover:text-blue-600 transition-colors text-gray-800"
+            className="text-lg font-semibold cursor-pointer hover:text-blue-600 transition-colors"
             onClick={() => setActiveView('profile-info')}
           >
             {userData.name}
@@ -592,14 +586,14 @@ export const CompleteDashboard = () => {
         <div className="flex items-center gap-4">
           <IconButton
             onClick={() => setActiveView(null)}
-            sx={{ '&:hover': { backgroundColor: '#f5f5f5' } }}
+            className="hover:bg-gray-100"
           >
             <Home />
           </IconButton>
           
           <IconButton
             onClick={handleNotificationClick}
-            sx={{ '&:hover': { backgroundColor: '#f5f5f5' } }}
+            className="hover:bg-gray-100"
           >
             <Badge badgeContent={notificationCount} color="error">
               <Notifications />
@@ -610,30 +604,14 @@ export const CompleteDashboard = () => {
 
       <div className="flex flex-1 pt-16">
         {/* Sidebar */}
-        <Drawer
-          variant="permanent"
-          sx={{
-            width: 256,
-            flexShrink: 0,
-            '& .MuiDrawer-paper': {
-              width: 256,
-              boxSizing: 'border-box',
-              borderRight: '1px solid #e0e0e0',
-              overflow: 'hidden',
-              backgroundColor: 'white'
-            },
-          }}
-        >
-          <div className="overflow-auto p-2">
+        <aside className="fixed top-16 left-0 w-64 h-[calc(100vh-4rem)] bg-white shadow-lg p-4 z-40 overflow-y-auto">
+          <nav>
             <List dense>
               {/* Supsindex Offer */}
               <ListItem disablePadding>
                 <ListItemButton 
                   onClick={() => setSupsindexOpen(!supsindexOpen)}
-                  sx={{ 
-                    borderRadius: 1,
-                    '&:hover': { backgroundColor: '#f5f5f5' }
-                  }}
+                  className="rounded-md hover:bg-gray-50"
                 >
                   <ListItemText primary="Supsindex Offer" />
                   {supsindexOpen ? <ExpandLess /> : <ExpandMore />}
@@ -642,25 +620,21 @@ export const CompleteDashboard = () => {
               <Collapse in={supsindexOpen} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
                   <ListItemButton 
-                    sx={{ 
-                      pl: 4,
-                      borderRadius: 1,
-                      backgroundColor: activeView === 'fast-trak' ? '#e3f2fd' : 'transparent',
-                      color: activeView === 'fast-trak' ? '#1976d2' : 'inherit',
-                      '&:hover': { backgroundColor: activeView === 'fast-trak' ? '#e3f2fd' : '#f5f5f5' }
-                    }}
+                    className={`pl-8 rounded-md ${
+                      activeView === 'fast-trak' 
+                        ? 'bg-blue-50 text-blue-600 shadow-sm ring-1 ring-blue-200' 
+                        : 'hover:bg-gray-50'
+                    }`}
                     onClick={() => setActiveView('fast-trak')}
                   >
                     <ListItemText primary="Fast Trak" />
                   </ListItemButton>
                   <ListItemButton 
-                    sx={{ 
-                      pl: 4,
-                      borderRadius: 1,
-                      backgroundColor: activeView === 'special-offer' ? '#e3f2fd' : 'transparent',
-                      color: activeView === 'special-offer' ? '#1976d2' : 'inherit',
-                      '&:hover': { backgroundColor: activeView === 'special-offer' ? '#e3f2fd' : '#f5f5f5' }
-                    }}
+                    className={`pl-8 rounded-md ${
+                      activeView === 'special-offer' 
+                        ? 'bg-blue-50 text-blue-600 shadow-sm ring-1 ring-blue-200' 
+                        : 'hover:bg-gray-50'
+                    }`}
                     onClick={() => setActiveView('special-offer')}
                   >
                     <ListItemText primary="Special Offer" />
@@ -672,10 +646,7 @@ export const CompleteDashboard = () => {
               <ListItem disablePadding>
                 <ListItemButton 
                   onClick={() => setCertsOpen(!certsOpen)}
-                  sx={{ 
-                    borderRadius: 1,
-                    '&:hover': { backgroundColor: '#f5f5f5' }
-                  }}
+                  className="rounded-md hover:bg-gray-50"
                 >
                   <ListItemText primary="Certs & Reports" />
                   {certsOpen ? <ExpandLess /> : <ExpandMore />}
@@ -684,25 +655,21 @@ export const CompleteDashboard = () => {
               <Collapse in={certsOpen} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
                   <ListItemButton 
-                    sx={{ 
-                      pl: 4,
-                      borderRadius: 1,
-                      backgroundColor: activeView === 'reports' ? '#e3f2fd' : 'transparent',
-                      color: activeView === 'reports' ? '#1976d2' : 'inherit',
-                      '&:hover': { backgroundColor: activeView === 'reports' ? '#e3f2fd' : '#f5f5f5' }
-                    }}
+                    className={`pl-8 rounded-md ${
+                      activeView === 'reports' 
+                        ? 'bg-blue-50 text-blue-600 shadow-sm ring-1 ring-blue-200' 
+                        : 'hover:bg-gray-50'
+                    }`}
                     onClick={() => setActiveView('reports')}
                   >
                     <ListItemText primary="Reports" />
                   </ListItemButton>
                   <ListItemButton 
-                    sx={{ 
-                      pl: 4,
-                      borderRadius: 1,
-                      backgroundColor: activeView === 'certifications' ? '#e3f2fd' : 'transparent',
-                      color: activeView === 'certifications' ? '#1976d2' : 'inherit',
-                      '&:hover': { backgroundColor: activeView === 'certifications' ? '#e3f2fd' : '#f5f5f5' }
-                    }}
+                    className={`pl-8 rounded-md ${
+                      activeView === 'certifications' 
+                        ? 'bg-blue-50 text-blue-600 shadow-sm ring-1 ring-blue-200' 
+                        : 'hover:bg-gray-50'
+                    }`}
                     onClick={() => setActiveView('certifications')}
                   >
                     <ListItemText primary="Certifications" />
@@ -710,11 +677,11 @@ export const CompleteDashboard = () => {
                 </List>
               </Collapse>
             </List>
-          </div>
-        </Drawer>
+          </nav>
+        </aside>
 
         {/* Main Content */}
-        <main className="flex-1 overflow-auto overflow-x-hidden">
+        <main className="md:ml-64 mt-16 p-6 overflow-x-hidden overflow-y-auto">
           {renderMainContent()}
         </main>
       </div>
