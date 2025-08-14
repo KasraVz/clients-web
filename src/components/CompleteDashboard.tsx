@@ -516,17 +516,17 @@ export const CompleteDashboard = () => {
   const renderMainContent = () => {
     if (!activeView) {
       return (
-        <div className="flex items-center justify-center h-full text-center p-6">
-          <div className="max-w-sm">
+        <div className="flex flex-col items-center justify-center h-full p-8">
+          <div className="text-center">
             <img 
               src="/lovable-uploads/8a0dff28-ea84-44a3-a3c2-fe796bcb4004.png" 
               alt="Supsindex Logo" 
-              className="w-full max-w-xs opacity-70 mx-auto mb-6"
+              className="w-full max-w-sm mx-auto mb-8"
             />
-            <h3 className="text-xl text-gray-600 mb-4">
+            <h1 className="text-3xl font-bold text-gray-800 mb-4">
               Welcome to Your Dashboard
-            </h3>
-            <p className="text-gray-500">
+            </h1>
+            <p className="text-lg text-gray-600">
               Click an item in the sidebar or header to get started
             </p>
           </div>
