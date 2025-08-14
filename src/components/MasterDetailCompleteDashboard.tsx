@@ -1599,7 +1599,7 @@ const MasterDetailCompleteDashboard: React.FC = () => {
         sx={{
           width: isSidebarCollapsed ? 0 : 256,
           flexShrink: 0,
-          zIndex: 30,
+          zIndex: 110,
           transition: 'width 0.3s ease-in-out',
           '& .MuiDrawer-paper': {
             width: isSidebarCollapsed ? 0 : 256,
@@ -1608,7 +1608,7 @@ const MasterDetailCompleteDashboard: React.FC = () => {
             height: 'calc(100vh - 64px)',
             backgroundColor: 'white',
             boxShadow: '2px 0 4px rgba(0,0,0,0.1)',
-            zIndex: 30,
+            zIndex: 110,
             transition: 'width 0.3s ease-in-out',
             overflow: 'hidden'
           },
@@ -2055,28 +2055,30 @@ const MasterDetailCompleteDashboard: React.FC = () => {
       </Dialog>
 
       {/* Footer */}
-      <footer className="fixed bottom-0 left-0 w-full h-16 bg-white flex items-center justify-between px-4 shadow-lg"
+      <footer className="fixed bottom-0 left-0 w-full h-16 bg-white flex items-center justify-end px-4 shadow-lg"
         style={{ zIndex: 100, boxShadow: '0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -1px rgba(0, 0, 0, 0.06)' }}
       >
-        <Button 
-          variant="text" 
-          color="primary"
-          onClick={() => {
-            // Simulate logout redirect
-            alert('Redirecting to login page...');
-          }}
-        >
-          Logout
-        </Button>
-        
-        <Tooltip title="Open Support Tickets">
-          <IconButton 
-            onClick={() => setActiveView('ticketing-system')}
-            className="text-primary"
+        <div className="flex items-center space-x-4">
+          <Button 
+            variant="text" 
+            color="primary"
+            onClick={() => {
+              // Simulate logout redirect
+              alert('Redirecting to login page...');
+            }}
           >
-            <MailOutline />
-          </IconButton>
-        </Tooltip>
+            Logout
+          </Button>
+          
+          <Tooltip title="Open Support Tickets">
+            <IconButton 
+              onClick={() => setActiveView('ticketing-system')}
+              className="text-primary"
+            >
+              <MailOutline />
+            </IconButton>
+          </Tooltip>
+        </div>
       </footer>
     </div>
   );
