@@ -542,9 +542,9 @@ export const TailwindMuiDashboard = () => {
   };
 
   return (
-    <div className="h-screen overflow-x-hidden flex flex-col">
+    <div className="h-screen w-full overflow-x-hidden flex flex-col">
       {/* Header */}
-      <header className="fixed top-0 left-0 w-full h-16 bg-white shadow-md flex items-center justify-between px-4 z-50">
+      <header className="fixed top-0 left-0 w-full h-16 bg-white shadow-md flex items-center justify-between px-4 z-50 max-w-full">
         {/* Profile Master Item */}
         <div className="flex items-center gap-3">
           <Avatar 
