@@ -1581,7 +1581,7 @@ const MasterDetailCompleteDashboard: React.FC = () => {
         sx={{
           width: 256,
           flexShrink: 0,
-          zIndex: 40,
+          zIndex: 30,
           '& .MuiDrawer-paper': {
             width: 256,
             boxSizing: 'border-box',
