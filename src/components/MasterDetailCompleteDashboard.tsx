@@ -1624,14 +1624,14 @@ const MasterDetailCompleteDashboard: React.FC = () => {
               <ListItemButton 
                 sx={{ pl: 4 }}
                 onClick={() => setActiveView('fast-trak')}
-                className={activeView === 'fast-trak' ? 'bg-blue-50 shadow-md' : ''}
+                className={activeView === 'fast-trak' ? 'relative after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:w-3/4 after:h-0.5 after:bg-primary after:rounded-full after:shadow-lg after:shadow-primary/50' : ''}
               >
                 <ListItemText primary="Fast Trak" />
               </ListItemButton>
               <ListItemButton 
                 sx={{ pl: 4 }}
                 onClick={() => setActiveView('special-offer')}
-                className={activeView === 'special-offer' ? 'bg-blue-50 shadow-md' : ''}
+                className={activeView === 'special-offer' ? 'relative after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:w-3/4 after:h-0.5 after:bg-primary after:rounded-full after:shadow-lg after:shadow-primary/50' : ''}
               >
                 <ListItemText primary="Special Offer" />
               </ListItemButton>
@@ -1650,14 +1650,14 @@ const MasterDetailCompleteDashboard: React.FC = () => {
               <ListItemButton 
                 sx={{ pl: 4 }}
                 onClick={() => setActiveView('reports')}
-                className={activeView === 'reports' ? 'bg-blue-50 shadow-md' : ''}
+                className={activeView === 'reports' ? 'relative after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:w-3/4 after:h-0.5 after:bg-primary after:rounded-full after:shadow-lg after:shadow-primary/50' : ''}
               >
                 <ListItemText primary="Reports" />
               </ListItemButton>
               <ListItemButton 
                 sx={{ pl: 4 }}
                 onClick={() => setActiveView('certifications')}
-                className={activeView === 'certifications' ? 'bg-blue-50 shadow-md' : ''}
+                className={activeView === 'certifications' ? 'relative after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:w-3/4 after:h-0.5 after:bg-primary after:rounded-full after:shadow-lg after:shadow-primary/50' : ''}
               >
                 <ListItemText primary="Certifications" />
               </ListItemButton>
@@ -1667,7 +1667,7 @@ const MasterDetailCompleteDashboard: React.FC = () => {
           <ListItem disablePadding>
             <ListItemButton 
               onClick={() => setActiveView('booked-tests')}
-              className={activeView === 'booked-tests' ? 'bg-blue-50 shadow-md' : ''}
+              className={activeView === 'booked-tests' ? 'relative after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:w-3/4 after:h-0.5 after:bg-primary after:rounded-full after:shadow-lg after:shadow-primary/50' : ''}
             >
               <ListItemText primary="Booked tests" />
             </ListItemButton>
@@ -1676,7 +1676,7 @@ const MasterDetailCompleteDashboard: React.FC = () => {
           <ListItem disablePadding>
             <ListItemButton 
               onClick={() => setActiveView('feedback-panel')}
-              className={activeView === 'feedback-panel' ? 'bg-blue-50 shadow-md' : ''}
+              className={activeView === 'feedback-panel' ? 'relative after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:w-3/4 after:h-0.5 after:bg-primary after:rounded-full after:shadow-lg after:shadow-primary/50' : ''}
             >
               <ListItemText primary="Feedback Panel" />
             </ListItemButton>
@@ -1685,7 +1685,7 @@ const MasterDetailCompleteDashboard: React.FC = () => {
           <ListItem disablePadding>
             <ListItemButton 
               onClick={() => setActiveView('community')}
-              className={activeView === 'community' ? 'bg-blue-50 shadow-md' : ''}
+              className={activeView === 'community' ? 'relative after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:w-3/4 after:h-0.5 after:bg-primary after:rounded-full after:shadow-lg after:shadow-primary/50' : ''}
             >
               <ListItemText primary="Community" />
             </ListItemButton>
@@ -1694,7 +1694,7 @@ const MasterDetailCompleteDashboard: React.FC = () => {
           <ListItem disablePadding>
             <ListItemButton 
               onClick={() => setActiveView('test-history')}
-              className={activeView === 'test-history' ? 'bg-blue-50 shadow-md' : ''}
+              className={activeView === 'test-history' ? 'relative after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:w-3/4 after:h-0.5 after:bg-primary after:rounded-full after:shadow-lg after:shadow-primary/50' : ''}
             >
               <ListItemText primary="Test History" />
             </ListItemButton>
@@ -1712,14 +1712,14 @@ const MasterDetailCompleteDashboard: React.FC = () => {
               <ListItemButton 
                 sx={{ pl: 4 }}
                 onClick={() => setActiveView('affiliate-section')}
-                className={activeView === 'affiliate-section' ? 'bg-blue-50 shadow-md' : ''}
+                className={activeView === 'affiliate-section' ? 'relative after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:w-3/4 after:h-0.5 after:bg-primary after:rounded-full after:shadow-lg after:shadow-primary/50' : ''}
               >
                 <ListItemText primary="Affiliate Section" />
               </ListItemButton>
               <ListItemButton 
                 sx={{ pl: 4 }}
                 onClick={() => setActiveView('referral-section')}
-                className={activeView === 'referral-section' ? 'bg-blue-50 shadow-md' : ''}
+                className={activeView === 'referral-section' ? 'relative after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:w-3/4 after:h-0.5 after:bg-primary after:rounded-full after:shadow-lg after:shadow-primary/50' : ''}
               >
                 <ListItemText primary="Referral Section" />
               </ListItemButton>
@@ -1738,14 +1738,14 @@ const MasterDetailCompleteDashboard: React.FC = () => {
               <ListItemButton 
                 sx={{ pl: 4 }}
                 onClick={() => setActiveView('general-scholarship')}
-                className={activeView === 'general-scholarship' ? 'bg-blue-50 shadow-md' : ''}
+                className={activeView === 'general-scholarship' ? 'relative after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:w-3/4 after:h-0.5 after:bg-primary after:rounded-full after:shadow-lg after:shadow-primary/50' : ''}
               >
                 <ListItemText primary="General Scholarship Items" />
               </ListItemButton>
               <ListItemButton 
                 sx={{ pl: 4 }}
                 onClick={() => setActiveView('request-scholarship')}
-                className={activeView === 'request-scholarship' ? 'bg-blue-50 shadow-md' : ''}
+                className={activeView === 'request-scholarship' ? 'relative after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:w-3/4 after:h-0.5 after:bg-primary after:rounded-full after:shadow-lg after:shadow-primary/50' : ''}
               >
                 <ListItemText primary="Request a Specific Scholarship" />
               </ListItemButton>
@@ -1755,7 +1755,7 @@ const MasterDetailCompleteDashboard: React.FC = () => {
           <ListItem disablePadding>
             <ListItemButton 
               onClick={() => setActiveView('connecting-team')}
-              className={activeView === 'connecting-team' ? 'bg-blue-50 shadow-md' : ''}
+              className={activeView === 'connecting-team' ? 'relative after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:w-3/4 after:h-0.5 after:bg-primary after:rounded-full after:shadow-lg after:shadow-primary/50' : ''}
             >
               <ListItemText primary="Connecting with a team" />
             </ListItemButton>
