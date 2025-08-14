@@ -67,7 +67,7 @@ import {
   LocalOffer,
   EventNote,
   Feedback,
-  Group,
+  Forum,
   History,
   People,
   School,
@@ -1627,63 +1627,78 @@ const MasterDetailCompleteDashboard: React.FC = () => {
               </IconButton>
             </div>
             
-            <List className="p-4">
-          <ListItem disablePadding>
-            <ListItemButton onClick={() => handleSidebarToggle('supsindex')}>
-              <ListItemIcon>
-                <LocalOffer />
-              </ListItemIcon>
-              <ListItemText primary="Supsindex Offer" />
-              {sidebarExpanded.supsindex ? <ExpandLess /> : <ExpandMore />}
-            </ListItemButton>
-          </ListItem>
-          <Collapse in={sidebarExpanded.supsindex} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItemButton 
-                sx={{ pl: 4 }}
-                onClick={() => setActiveView('fast-trak')}
-                className={activeView === 'fast-trak' ? 'relative after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:w-3/4 after:h-0.5 after:bg-primary after:rounded-full after:shadow-lg after:shadow-primary/50' : ''}
-              >
-                <ListItemText primary="Fast Trak" />
-              </ListItemButton>
-              <ListItemButton 
-                sx={{ pl: 4 }}
-                onClick={() => setActiveView('special-offer')}
-                className={activeView === 'special-offer' ? 'relative after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:w-3/4 after:h-0.5 after:bg-primary after:rounded-full after:shadow-lg after:shadow-primary/50' : ''}
-              >
-                <ListItemText primary="Special Offer" />
-              </ListItemButton>
-            </List>
-          </Collapse>
+            <div className="overflow-y-auto h-full">
+              <List className="p-4">
+              <ListItem disablePadding>
+                <ListItemButton onClick={() => handleSidebarToggle('supsindex')}>
+                  <ListItemIcon>
+                    <LocalOffer />
+                  </ListItemIcon>
+                  <ListItemText primary="Supsindex Offer" />
+                  {sidebarExpanded.supsindex ? <ExpandLess /> : <ExpandMore />}
+                </ListItemButton>
+              </ListItem>
+              <Collapse in={sidebarExpanded.supsindex} timeout="auto" unmountOnExit>
+                <div className="ml-8 border-l-2 border-gray-200 relative">
+                  <List component="div" disablePadding>
+                    <ListItemButton 
+                      sx={{ pl: 2, py: 0.5, fontSize: '0.875rem' }}
+                      onClick={() => setActiveView('fast-trak')}
+                      className={`text-sm relative ${activeView === 'fast-trak' ? 'after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:w-3/4 after:h-0.5 after:bg-primary after:rounded-full after:shadow-lg after:shadow-primary/50' : ''}`}
+                    >
+                      <div className="absolute -left-2 top-1/2 w-4 h-px bg-gray-200"></div>
+                      <ListItemText primary="Fast Trak" primaryTypographyProps={{fontSize: '0.875rem'}} />
+                    </ListItemButton>
+                    <ListItemButton 
+                      sx={{ pl: 2, py: 0.5, fontSize: '0.875rem' }}
+                      onClick={() => setActiveView('special-offer')}
+                      className={`text-sm relative ${activeView === 'special-offer' ? 'after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:w-3/4 after:h-0.5 after:bg-primary after:rounded-full after:shadow-lg after:shadow-primary/50' : ''}`}
+                    >
+                      <div className="absolute -left-2 top-1/2 w-4 h-px bg-gray-200"></div>
+                      <ListItemText primary="Special Offer" primaryTypographyProps={{fontSize: '0.875rem'}} />
+                    </ListItemButton>
+                  </List>
+                </div>
+              </Collapse>
 
-          <ListItem disablePadding>
-            <ListItemButton onClick={() => handleSidebarToggle('certs')}>
-              <ListItemIcon>
-                <VerifiedUser />
-              </ListItemIcon>
-              <ListItemText primary="Certs & Reports" />
-              {sidebarExpanded.certs ? <ExpandLess /> : <ExpandMore />}
-            </ListItemButton>
-          </ListItem>
+              {/* Separator */}
+              <div className="mx-4 my-2 h-px bg-gray-200"></div>
 
-          <Collapse in={sidebarExpanded.certs} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItemButton 
-                sx={{ pl: 4 }}
-                onClick={() => setActiveView('reports')}
-                className={activeView === 'reports' ? 'relative after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:w-3/4 after:h-0.5 after:bg-primary after:rounded-full after:shadow-lg after:shadow-primary/50' : ''}
-              >
-                <ListItemText primary="Reports" />
-              </ListItemButton>
-              <ListItemButton 
-                sx={{ pl: 4 }}
-                onClick={() => setActiveView('certifications')}
-                className={activeView === 'certifications' ? 'relative after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:w-3/4 after:h-0.5 after:bg-primary after:rounded-full after:shadow-lg after:shadow-primary/50' : ''}
-              >
-                <ListItemText primary="Certifications" />
-              </ListItemButton>
-            </List>
-          </Collapse>
+              {/* Separator */}
+              <div className="mx-4 my-2 h-px bg-gray-200"></div>
+
+              <ListItem disablePadding>
+                <ListItemButton onClick={() => handleSidebarToggle('certs')}>
+                  <ListItemIcon>
+                    <VerifiedUser />
+                  </ListItemIcon>
+                  <ListItemText primary="Certs & Reports" />
+                  {sidebarExpanded.certs ? <ExpandLess /> : <ExpandMore />}
+                </ListItemButton>
+              </ListItem>
+
+              <Collapse in={sidebarExpanded.certs} timeout="auto" unmountOnExit>
+                <div className="ml-8 border-l-2 border-gray-200 relative">
+                  <List component="div" disablePadding>
+                    <ListItemButton 
+                      sx={{ pl: 2, py: 0.5, fontSize: '0.875rem' }}
+                      onClick={() => setActiveView('reports')}
+                      className={`text-sm relative ${activeView === 'reports' ? 'after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:w-3/4 after:h-0.5 after:bg-primary after:rounded-full after:shadow-lg after:shadow-primary/50' : ''}`}
+                    >
+                      <div className="absolute -left-2 top-1/2 w-4 h-px bg-gray-200"></div>
+                      <ListItemText primary="Reports" primaryTypographyProps={{fontSize: '0.875rem'}} />
+                    </ListItemButton>
+                    <ListItemButton 
+                      sx={{ pl: 2, py: 0.5, fontSize: '0.875rem' }}
+                      onClick={() => setActiveView('certifications')}
+                      className={`text-sm relative ${activeView === 'certifications' ? 'after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:w-3/4 after:h-0.5 after:bg-primary after:rounded-full after:shadow-lg after:shadow-primary/50' : ''}`}
+                    >
+                      <div className="absolute -left-2 top-1/2 w-4 h-px bg-gray-200"></div>
+                      <ListItemText primary="Certifications" primaryTypographyProps={{fontSize: '0.875rem'}} />
+                    </ListItemButton>
+                  </List>
+                </div>
+              </Collapse>
 
           {/* Separator */}
           <div className="mx-4 my-2 h-px bg-gray-200"></div>
@@ -1724,7 +1739,7 @@ const MasterDetailCompleteDashboard: React.FC = () => {
               className={activeView === 'community' ? 'relative after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:w-3/4 after:h-0.5 after:bg-primary after:rounded-full after:shadow-lg after:shadow-primary/50' : ''}
             >
               <ListItemIcon>
-                <Group />
+                <Forum />
               </ListItemIcon>
               <ListItemText primary="Community" />
             </ListItemButton>
@@ -1790,24 +1805,28 @@ const MasterDetailCompleteDashboard: React.FC = () => {
             </ListItemButton>
           </ListItem>
 
-          <Collapse in={sidebarExpanded.scholarship} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItemButton 
-                sx={{ pl: 4 }}
-                onClick={() => setActiveView('general-scholarship')}
-                className={activeView === 'general-scholarship' ? 'relative after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:w-3/4 after:h-0.5 after:bg-primary after:rounded-full after:shadow-lg after:shadow-primary/50' : ''}
-              >
-                <ListItemText primary="General Scholarship Items" />
-              </ListItemButton>
-              <ListItemButton 
-                sx={{ pl: 4 }}
-                onClick={() => setActiveView('request-scholarship')}
-                className={activeView === 'request-scholarship' ? 'relative after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:w-3/4 after:h-0.5 after:bg-primary after:rounded-full after:shadow-lg after:shadow-primary/50' : ''}
-              >
-                <ListItemText primary="Request a Specific Scholarship" />
-              </ListItemButton>
-            </List>
-          </Collapse>
+              <Collapse in={sidebarExpanded.scholarship} timeout="auto" unmountOnExit>
+                <div className="ml-8 border-l-2 border-gray-200 relative">
+                  <List component="div" disablePadding>
+                    <ListItemButton 
+                      sx={{ pl: 2, py: 0.5, fontSize: '0.875rem' }}
+                      onClick={() => setActiveView('general-scholarship')}
+                      className={`text-sm relative ${activeView === 'general-scholarship' ? 'after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:w-3/4 after:h-0.5 after:bg-primary after:rounded-full after:shadow-lg after:shadow-primary/50' : ''}`}
+                    >
+                      <div className="absolute -left-2 top-1/2 w-4 h-px bg-gray-200"></div>
+                      <ListItemText primary="General Scholarship Items" primaryTypographyProps={{fontSize: '0.875rem'}} />
+                    </ListItemButton>
+                    <ListItemButton 
+                      sx={{ pl: 2, py: 0.5, fontSize: '0.875rem' }}
+                      onClick={() => setActiveView('request-scholarship')}
+                      className={`text-sm relative ${activeView === 'request-scholarship' ? 'after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:w-3/4 after:h-0.5 after:bg-primary after:rounded-full after:shadow-lg after:shadow-primary/50' : ''}`}
+                    >
+                      <div className="absolute -left-2 top-1/2 w-4 h-px bg-gray-200"></div>
+                      <ListItemText primary="Request a Specific Scholarship" primaryTypographyProps={{fontSize: '0.875rem'}} />
+                    </ListItemButton>
+                  </List>
+                </div>
+              </Collapse>
 
           {/* Separator */}
           <div className="mx-4 my-2 h-px bg-gray-200"></div>
@@ -1826,7 +1845,8 @@ const MasterDetailCompleteDashboard: React.FC = () => {
 
           {/* Separator */}
           <div className="mx-4 my-2 h-px bg-gray-200"></div>
-            </List>
+              </List>
+            </div>
           </>
         )}
       </Drawer>
