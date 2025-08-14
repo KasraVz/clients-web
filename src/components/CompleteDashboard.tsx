@@ -28,6 +28,8 @@ import {
   Typography,
   Card,
   CardContent,
+  Menu,
+  MenuItem,
 } from '@mui/material';
 import {
   ExpandLess,
@@ -45,6 +47,7 @@ import {
   Upload,
   CameraAlt,
   HelpOutline,
+  Apps,
 } from '@mui/icons-material';
 
 type DetailView = 'profile-photo' | 'profile-info' | 'notifications' | 'fast-trak' | 'special-offer' | 'reports' | 'certifications' | null;
@@ -144,6 +147,7 @@ export const CompleteDashboard = () => {
   const [newEmail, setNewEmail] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
   const [countdown, setCountdown] = useState(0);
+  const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
 
   const handleNotificationClick = () => {
     setActiveView('notifications');
@@ -633,6 +637,13 @@ export const CompleteDashboard = () => {
           </IconButton>
           
           <IconButton
+            onClick={(e) => setMenuAnchor(e.currentTarget)}
+            className="hover:bg-gray-100"
+          >
+            <Apps />
+          </IconButton>
+          
+          <IconButton
             onClick={handleNotificationClick}
             className="hover:bg-gray-100"
           >
@@ -762,6 +773,28 @@ export const CompleteDashboard = () => {
           <Button onClick={() => setShareModalOpen(false)}>Close</Button>
         </DialogActions>
       </Dialog>
+
+      {/* Menu Dropdown */}
+      <Menu
+        anchorEl={menuAnchor}
+        open={Boolean(menuAnchor)}
+        onClose={() => setMenuAnchor(null)}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+      >
+        <MenuItem onClick={() => setMenuAnchor(null)}>
+          Add a new path
+        </MenuItem>
+        <MenuItem onClick={() => setMenuAnchor(null)}>
+          Change the dashboard
+        </MenuItem>
+      </Menu>
 
       {/* Email Change Modal */}
       <Dialog open={emailModalOpen} onClose={() => setEmailModalOpen(false)}>
