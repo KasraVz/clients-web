@@ -30,12 +30,15 @@ import {
   TextField,
   Tooltip,
   Menu,
-  MenuItem,
   Grid,
   Box,
   Chip,
   Popover,
   Checkbox,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from '@mui/material';
 import {
   Home,
@@ -55,6 +58,7 @@ import {
   WhatsApp,
   Telegram,
   Email,
+  AttachFile,
 } from '@mui/icons-material';
 import { toast } from 'sonner';
 
@@ -75,7 +79,8 @@ type DetailView =
   | 'referral-section'
   | 'general-scholarship'
   | 'request-scholarship'
-  | 'connecting-team';
+  | 'connecting-team'
+  | 'ticketing-system';
 
 interface Notification {
   id: string;
@@ -144,6 +149,16 @@ interface ReferralUser {
   status: 'Active' | 'Pending';
 }
 
+interface Ticket {
+  id: string;
+  subject: string;
+  description: string;
+  priority: 'Low' | 'Medium' | 'High';
+  status: 'Open' | 'In Progress' | 'Closed';
+  lastUpdate: string;
+  attachments?: string[];
+}
+
 const MasterDetailCompleteDashboard: React.FC = () => {
   const [activeView, setActiveView] = useState<DetailView>('welcome');
   const [notificationCount, setNotificationCount] = useState(3);
@@ -164,6 +179,11 @@ const MasterDetailCompleteDashboard: React.FC = () => {
   const [selectedFeedback, setSelectedFeedback] = useState<string[]>([]);
   const [feedbackComment, setFeedbackComment] = useState('');
   const [currentFeedbackId, setCurrentFeedbackId] = useState('');
+  
+  // Ticketing system state
+  const [ticketSubject, setTicketSubject] = useState('');
+  const [ticketDescription, setTicketDescription] = useState('');
+  const [ticketPriority, setTicketPriority] = useState<'Low' | 'Medium' | 'High'>('Medium');
 
   const userData = {
     name: 'John Smith',
@@ -365,6 +385,34 @@ const MasterDetailCompleteDashboard: React.FC = () => {
   ];
 
   const [scholarshipRequest, setScholarshipRequest] = useState('');
+
+  // Sample ticket data
+  const tickets: Ticket[] = [
+    {
+      id: 'TKT001',
+      subject: 'Login Issues with Two-Factor Authentication',
+      description: 'Unable to login when 2FA is enabled on my account',
+      priority: 'High',
+      status: 'Open',
+      lastUpdate: '2024-01-15'
+    },
+    {
+      id: 'TKT002',
+      subject: 'Certification Download Problem',
+      description: 'Certificate PDF is not downloading after completion',
+      priority: 'Medium',
+      status: 'In Progress',
+      lastUpdate: '2024-01-12'
+    },
+    {
+      id: 'TKT003',
+      subject: 'Payment Method Update',
+      description: 'Need assistance updating payment information',
+      priority: 'Low',
+      status: 'Closed',
+      lastUpdate: '2024-01-08'
+    }
+  ];
 
   const handleSidebarToggle = (section: 'supsindex' | 'certs' | 'referral' | 'scholarship') => {
     setSidebarExpanded(prev => ({
@@ -1261,6 +1309,149 @@ const MasterDetailCompleteDashboard: React.FC = () => {
     </div>
   );
 
+  const renderTicketingSystemView = () => (
+    <div className="w-full flex flex-col items-center justify-center p-8">
+      <div className="max-w-2xl w-full space-y-8">
+        {/* New Ticket Form */}
+        <Card className="shadow-lg">
+          <CardContent className="p-6">
+            <Typography variant="h5" className="mb-6 text-center">
+              Submit New Ticket
+            </Typography>
+            
+            <div className="space-y-4">
+              <TextField
+                label="Subject"
+                fullWidth
+                variant="outlined"
+                value={ticketSubject}
+                onChange={(e) => setTicketSubject(e.target.value)}
+                placeholder="Brief description of your issue"
+              />
+              
+              <TextField
+                label="Description"
+                multiline
+                rows={4}
+                fullWidth
+                variant="outlined"
+                value={ticketDescription}
+                onChange={(e) => setTicketDescription(e.target.value)}
+                placeholder="Please provide detailed information about your issue..."
+              />
+              
+              <FormControl fullWidth>
+                <InputLabel>Priority</InputLabel>
+                <Select
+                  value={ticketPriority}
+                  label="Priority"
+                  onChange={(e) => setTicketPriority(e.target.value as 'Low' | 'Medium' | 'High')}
+                >
+                  <MenuItem value="Low">Low</MenuItem>
+                  <MenuItem value="Medium">Medium</MenuItem>
+                  <MenuItem value="High">High</MenuItem>
+                </Select>
+              </FormControl>
+              
+              <Button
+                variant="outlined"
+                startIcon={<AttachFile />}
+                component="label"
+                fullWidth
+              >
+                Attach File
+                <input type="file" hidden multiple />
+              </Button>
+              
+              <Button
+                variant="contained"
+                size="large"
+                fullWidth
+                onClick={() => {
+                  if (ticketSubject.trim() && ticketDescription.trim()) {
+                    setTicketSubject('');
+                    setTicketDescription('');
+                    setTicketPriority('Medium');
+                    toast.success('Ticket submitted successfully!');
+                  } else {
+                    toast.error('Please fill in all required fields');
+                  }
+                }}
+              >
+                Submit Ticket
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* My Tickets List */}
+        <Card className="shadow-lg">
+          <CardContent className="p-6">
+            <Typography variant="h6" className="mb-4">
+              My Tickets
+            </Typography>
+            
+            <TableContainer>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Ticket ID</TableCell>
+                    <TableCell>Subject</TableCell>
+                    <TableCell>Priority</TableCell>
+                    <TableCell>Status</TableCell>
+                    <TableCell>Last Update</TableCell>
+                    <TableCell>View Details</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {tickets.map((ticket) => (
+                    <TableRow key={ticket.id}>
+                      <TableCell>{ticket.id}</TableCell>
+                      <TableCell>
+                        <Typography variant="body2" className="max-w-xs truncate">
+                          {ticket.subject}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Chip 
+                          label={ticket.priority}
+                          color={
+                            ticket.priority === 'High' ? 'error' :
+                            ticket.priority === 'Medium' ? 'warning' : 'default'
+                          }
+                          size="small"
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <Chip 
+                          label={ticket.status}
+                          color={
+                            ticket.status === 'Open' ? 'error' :
+                            ticket.status === 'In Progress' ? 'warning' : 'success'
+                          }
+                          size="small"
+                        />
+                      </TableCell>
+                      <TableCell>{ticket.lastUpdate}</TableCell>
+                      <TableCell>
+                        <IconButton 
+                          size="small"
+                          onClick={() => toast.info('Ticket details coming soon!')}
+                        >
+                          <Visibility />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+
   const renderMainContent = () => {
     switch (activeView) {
       case 'welcome':
@@ -1297,6 +1488,8 @@ const MasterDetailCompleteDashboard: React.FC = () => {
         return renderRequestScholarshipView();
       case 'connecting-team':
         return renderConnectingTeamView();
+      case 'ticketing-system':
+        return renderTicketingSystemView();
       default:
         return renderWelcomeView();
     }
@@ -1633,6 +1826,18 @@ const MasterDetailCompleteDashboard: React.FC = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
+      {/* Footer */}
+      <footer className="fixed bottom-0 left-0 w-full h-16 bg-white shadow-md flex items-center justify-end px-4 z-50">
+        <Tooltip title="Open Support Tickets">
+          <IconButton 
+            onClick={() => setActiveView('ticketing-system')}
+            className="text-primary"
+          >
+            <HelpOutline />
+          </IconButton>
+        </Tooltip>
+      </footer>
     </div>
   );
 };
