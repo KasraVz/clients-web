@@ -35,6 +35,7 @@ import {
   Box,
   Chip,
   Popover,
+  Checkbox,
 } from '@mui/material';
 import {
   Home,
@@ -49,6 +50,7 @@ import {
   Upload,
   CameraAlt,
   Apps,
+  Chair,
 } from '@mui/icons-material';
 import { toast } from 'sonner';
 
@@ -58,6 +60,9 @@ type DetailView =
   | 'profile-info'
   | 'notifications'
   | 'booked-tests'
+  | 'feedback-panel'
+  | 'community'
+  | 'test-history'
   | 'fast-trak'
   | 'special-offer'
   | 'reports'
@@ -97,6 +102,23 @@ interface Certification {
   isPurchased: boolean;
 }
 
+interface FeedbackItem {
+  id: string;
+  testId: string;
+  selected: boolean;
+  comment: string;
+}
+
+interface TestHistoryItem {
+  number: string;
+  orderNumber: string;
+  testName: string;
+  finalTestDate: string;
+  testStatus: 'Done' | 'Not Done';
+  paymentStatus: 'Paid' | 'Unpaid';
+  kycStatus: 'Accepted' | 'Not Accepted';
+}
+
 const MasterDetailCompleteDashboard: React.FC = () => {
   const [activeView, setActiveView] = useState<DetailView>('welcome');
   const [notificationCount, setNotificationCount] = useState(3);
@@ -107,10 +129,14 @@ const MasterDetailCompleteDashboard: React.FC = () => {
   const [emailModalOpen, setEmailModalOpen] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [timeModalOpen, setTimeModalOpen] = useState(false);
+  const [commentModalOpen, setCommentModalOpen] = useState(false);
   const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
   const [photoRulesAnchor, setPhotoRulesAnchor] = useState<null | HTMLElement>(null);
   const [newEmail, setNewEmail] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
+  const [selectedFeedback, setSelectedFeedback] = useState<string[]>([]);
+  const [feedbackComment, setFeedbackComment] = useState('');
+  const [currentFeedbackId, setCurrentFeedbackId] = useState('');
 
   const userData = {
     name: 'John Smith',
@@ -198,6 +224,57 @@ const MasterDetailCompleteDashboard: React.FC = () => {
       testName: 'Business Analysis',
       status: 'Expired',
       isPurchased: false
+    }
+  ];
+
+  const feedbackItems: FeedbackItem[] = [
+    {
+      id: 'FB001',
+      testId: 'TST001',
+      selected: false,
+      comment: ''
+    },
+    {
+      id: 'FB002',
+      testId: 'TST002',
+      selected: false,
+      comment: ''
+    },
+    {
+      id: 'FB003',
+      testId: 'TST003',
+      selected: false,
+      comment: ''
+    }
+  ];
+
+  const testHistoryItems: TestHistoryItem[] = [
+    {
+      number: '1',
+      orderNumber: 'ORD001',
+      testName: 'FPA Certification',
+      finalTestDate: '2023-12-15',
+      testStatus: 'Done',
+      paymentStatus: 'Paid',
+      kycStatus: 'Accepted'
+    },
+    {
+      number: '2',
+      orderNumber: 'ORD002',
+      testName: 'EEA Assessment',
+      finalTestDate: '2023-11-20',
+      testStatus: 'Not Done',
+      paymentStatus: 'Unpaid',
+      kycStatus: 'Not Accepted'
+    },
+    {
+      number: '3',
+      orderNumber: 'ORD003',
+      testName: 'Business Analysis',
+      finalTestDate: '2023-10-10',
+      testStatus: 'Done',
+      paymentStatus: 'Paid',
+      kycStatus: 'Accepted'
     }
   ];
 
@@ -444,13 +521,23 @@ const MasterDetailCompleteDashboard: React.FC = () => {
                   {test.testTime}
                 </TableCell>
                 <TableCell>
-                  <Button 
-                    variant="text" 
-                    size="small"
-                    onClick={handleTestRulesClick}
-                  >
-                    View Rules
-                  </Button>
+                  <div className="flex items-center space-x-2">
+                    <Button 
+                      variant="text" 
+                      size="small"
+                      onClick={handleTestRulesClick}
+                    >
+                      View Rules
+                    </Button>
+                    <Button 
+                      variant="text" 
+                      size="small"
+                      startIcon={<Chair />}
+                      onClick={handleTestRulesClick}
+                    >
+                      Set Condition
+                    </Button>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}
@@ -675,6 +762,128 @@ const MasterDetailCompleteDashboard: React.FC = () => {
     </div>
   );
 
+  const renderFeedbackPanelView = () => (
+    <div className="w-full flex flex-col items-center justify-center p-8">
+      <TableContainer component={Paper} className="max-w-5xl w-full">
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>
+                <Checkbox 
+                  checked={selectedFeedback.length === feedbackItems.length}
+                  indeterminate={selectedFeedback.length > 0 && selectedFeedback.length < feedbackItems.length}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setSelectedFeedback(feedbackItems.map(item => item.id));
+                    } else {
+                      setSelectedFeedback([]);
+                    }
+                  }}
+                />
+                Select All
+              </TableCell>
+              <TableCell>Test ID</TableCell>
+              <TableCell>Text Box</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {feedbackItems.map((item) => (
+              <TableRow key={item.id}>
+                <TableCell>
+                  <Checkbox 
+                    checked={selectedFeedback.includes(item.id)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedFeedback(prev => [...prev, item.id]);
+                      } else {
+                        setSelectedFeedback(prev => prev.filter(id => id !== item.id));
+                      }
+                    }}
+                  />
+                </TableCell>
+                <TableCell>{item.testId}</TableCell>
+                <TableCell>
+                  <Button 
+                    variant="outlined" 
+                    size="small"
+                    onClick={() => {
+                      setCurrentFeedbackId(item.id);
+                      setCommentModalOpen(true);
+                    }}
+                  >
+                    Add Comment
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
+  );
+
+  const renderCommunityView = () => (
+    <div className="w-full flex flex-col items-center justify-center p-8">
+      <Typography variant="h4" className="mb-4">
+        Community
+      </Typography>
+      <Typography variant="body1" className="text-center text-gray-600">
+        This section will contain the community features, to be designed later.
+      </Typography>
+    </div>
+  );
+
+  const renderTestHistoryView = () => (
+    <div className="w-full flex flex-col items-center justify-center p-8">
+      <TableContainer component={Paper} className="max-w-6xl w-full">
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Number</TableCell>
+              <TableCell>Order Number</TableCell>
+              <TableCell>Test Name & Specification</TableCell>
+              <TableCell>Final Test Date</TableCell>
+              <TableCell>Test Status</TableCell>
+              <TableCell>Payment Status</TableCell>
+              <TableCell>KYC Status</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {testHistoryItems.map((item) => (
+              <TableRow key={item.number}>
+                <TableCell>{item.number}</TableCell>
+                <TableCell>{item.orderNumber}</TableCell>
+                <TableCell>{item.testName}</TableCell>
+                <TableCell>{item.finalTestDate}</TableCell>
+                <TableCell>
+                  <Chip 
+                    label={item.testStatus}
+                    color={item.testStatus === 'Done' ? 'success' : 'error'}
+                    size="small"
+                  />
+                </TableCell>
+                <TableCell>
+                  <Chip 
+                    label={item.paymentStatus}
+                    color={item.paymentStatus === 'Paid' ? 'success' : 'error'}
+                    size="small"
+                  />
+                </TableCell>
+                <TableCell>
+                  <Chip 
+                    label={item.kycStatus}
+                    color={item.kycStatus === 'Accepted' ? 'success' : 'error'}
+                    size="small"
+                  />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
+  );
+
   const renderMainContent = () => {
     switch (activeView) {
       case 'welcome':
@@ -687,6 +896,12 @@ const MasterDetailCompleteDashboard: React.FC = () => {
         return renderNotificationsView();
       case 'booked-tests':
         return renderBookedTestsView();
+      case 'feedback-panel':
+        return renderFeedbackPanelView();
+      case 'community':
+        return renderCommunityView();
+      case 'test-history':
+        return renderTestHistoryView();
       case 'fast-trak':
         return renderFastTrakView();
       case 'special-offer':
@@ -800,6 +1015,33 @@ const MasterDetailCompleteDashboard: React.FC = () => {
           </ListItem>
 
           <ListItem disablePadding>
+            <ListItemButton 
+              onClick={() => setActiveView('feedback-panel')}
+              className={activeView === 'feedback-panel' ? 'bg-blue-50 shadow-md' : ''}
+            >
+              <ListItemText primary="Feedback Panel" />
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem disablePadding>
+            <ListItemButton 
+              onClick={() => setActiveView('community')}
+              className={activeView === 'community' ? 'bg-blue-50 shadow-md' : ''}
+            >
+              <ListItemText primary="Community" />
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem disablePadding>
+            <ListItemButton 
+              onClick={() => setActiveView('test-history')}
+              className={activeView === 'test-history' ? 'bg-blue-50 shadow-md' : ''}
+            >
+              <ListItemText primary="Test History" />
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem disablePadding>
             <ListItemButton onClick={() => handleSidebarToggle('certs')}>
               <ListItemText primary="Certs & Reports" />
               {sidebarExpanded.certs ? <ExpandLess /> : <ExpandMore />}
@@ -907,6 +1149,39 @@ const MasterDetailCompleteDashboard: React.FC = () => {
         <DialogActions>
           <Button onClick={() => setTimeModalOpen(false)}>Cancel</Button>
           <Button variant="contained">Update Time</Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={commentModalOpen} onClose={() => setCommentModalOpen(false)}>
+        <DialogTitle>Add Comment</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Comment"
+            multiline
+            rows={4}
+            fullWidth
+            variant="outlined"
+            value={feedbackComment}
+            onChange={(e) => setFeedbackComment(e.target.value)}
+            className="mb-4"
+          />
+          <div className="flex space-x-2">
+            <Button variant="outlined" component="label">
+              Upload Evidence
+              <input type="file" hidden />
+            </Button>
+          </div>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setCommentModalOpen(false)}>Cancel</Button>
+          <Button variant="contained" onClick={() => {
+            setFeedbackComment('');
+            setCommentModalOpen(false);
+          }}>
+            Submit
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
