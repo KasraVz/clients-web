@@ -93,36 +93,36 @@ export const ReportsView = () => {
 
   return (
     <div className="w-full flex items-center justify-center min-h-[60vh]">
-      <div className="w-full max-w-7xl px-4">
+      <div className="w-full max-w-5xl px-4">
         <TooltipProvider>
       <Card className="shadow-lg">
         <CardContent className="p-6">
           <h2 className="text-2xl font-bold mb-6">Reports</h2>
-          <div className="overflow-x-auto">
-            <Table className="min-w-full table-auto">
+          <div className="w-full">
+            <Table className="w-full">
               <TableHeader>
                 <TableRow>
-                  <TableHead>Report ID</TableHead>
-                  <TableHead>Test Date</TableHead>
-                  <TableHead>Publish Date</TableHead>
-                  <TableHead>Test Name</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Preview</TableHead>
-                  <TableHead>Download</TableHead>
-                  <TableHead>Send to</TableHead>
+                  <TableHead className="w-[12%]">ID</TableHead>
+                  <TableHead className="w-[15%]">Test Date</TableHead>
+                  <TableHead className="w-[15%]">Publish</TableHead>
+                  <TableHead className="w-[20%]">Name</TableHead>
+                  <TableHead className="w-[12%]">Status</TableHead>
+                  <TableHead className="w-[9%]">View</TableHead>
+                  <TableHead className="w-[9%]">Get</TableHead>
+                  <TableHead className="w-[8%]">Send</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {reports.map((report) => (
                   <TableRow key={report.id}>
-                    <TableCell className="font-medium">{report.id}</TableCell>
-                    <TableCell>{report.testDate}</TableCell>
-                    <TableCell>{report.publishDate || '-'}</TableCell>
-                    <TableCell>{report.testName}</TableCell>
+                    <TableCell className="font-mono text-sm">{report.id}</TableCell>
+                    <TableCell className="text-sm">{report.testDate}</TableCell>
+                    <TableCell className="text-sm">{report.publishDate || '-'}</TableCell>
+                    <TableCell className="font-medium">{report.testName}</TableCell>
                     <TableCell>
                       <Badge 
                         variant={report.status === 'Valid' ? 'secondary' : 'destructive'}
-                        className={report.status === 'Valid' ? 'bg-green-100 text-green-800' : ''}
+                        className={`text-xs ${report.status === 'Valid' ? 'bg-green-100 text-green-800' : ''}`}
                       >
                         {report.status}
                       </Badge>

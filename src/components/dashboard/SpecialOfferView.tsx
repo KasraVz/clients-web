@@ -35,7 +35,7 @@ export const SpecialOfferView = () => {
 
   return (
     <div className="w-full flex items-center justify-center min-h-[60vh]">
-      <div className="w-full max-w-5xl">
+      <div className="w-full max-w-4xl px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {offers.map((offer) => (
         <Card 

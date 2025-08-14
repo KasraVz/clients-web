@@ -90,34 +90,34 @@ export const CertificationsView = () => {
 
   return (
     <div className="w-full flex items-center justify-center min-h-[60vh]">
-      <div className="w-full max-w-7xl px-4">
+      <div className="w-full max-w-5xl px-4">
         <TooltipProvider>
       <Card className="shadow-lg">
         <CardContent className="p-6">
           <h2 className="text-2xl font-bold mb-6">Certifications</h2>
-          <div className="overflow-x-auto">
-            <Table className="min-w-full table-auto">
+          <div className="w-full">
+            <Table className="w-full">
               <TableHeader>
                 <TableRow>
-                  <TableHead>Cert ID</TableHead>
-                  <TableHead>Test Date</TableHead>
-                  <TableHead>Test Name</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Preview</TableHead>
-                  <TableHead>Download</TableHead>
-                  <TableHead>Share to</TableHead>
+                  <TableHead className="w-[15%]">ID</TableHead>
+                  <TableHead className="w-[15%]">Date</TableHead>
+                  <TableHead className="w-[25%]">Name</TableHead>
+                  <TableHead className="w-[15%]">Status</TableHead>
+                  <TableHead className="w-[10%]">View</TableHead>
+                  <TableHead className="w-[10%]">Get</TableHead>
+                  <TableHead className="w-[10%]">Share</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {certifications.map((cert) => (
                   <TableRow key={cert.id}>
-                    <TableCell className="font-medium">{cert.id}</TableCell>
-                    <TableCell>{cert.testDate}</TableCell>
-                    <TableCell>{cert.testName}</TableCell>
+                    <TableCell className="font-mono text-sm">{cert.id}</TableCell>
+                    <TableCell className="text-sm">{cert.testDate}</TableCell>
+                    <TableCell className="font-medium">{cert.testName}</TableCell>
                     <TableCell>
                       <Badge 
                         variant={cert.status === 'Valid' ? 'secondary' : 'destructive'}
-                        className={cert.status === 'Valid' ? 'bg-green-100 text-green-800' : ''}
+                        className={`text-xs ${cert.status === 'Valid' ? 'bg-green-100 text-green-800' : ''}`}
                       >
                         {cert.status}
                       </Badge>
