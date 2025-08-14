@@ -265,7 +265,7 @@ export const MasterDetailDashboard = () => {
         <div className="flex items-center justify-center h-96">
           <div className="text-center space-y-6">
             <img 
-              src={supsindexLogo} 
+              src="/lovable-uploads/8a0dff28-ea84-44a3-a3c2-fe796bcb4004.png" 
               alt="Supsindex Logo" 
               className="w-64 h-auto mx-auto opacity-70"
             />
