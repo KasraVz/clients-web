@@ -516,7 +516,7 @@ export const CompleteDashboard = () => {
   const renderMainContent = () => {
     if (!activeView) {
       return (
-        <div className="h-[calc(100vh-4rem)] flex flex-col items-center justify-center space-y-4">
+        <div className="h-full flex flex-col items-center justify-center space-y-4">
           <img 
             src="/lovable-uploads/8a0dff28-ea84-44a3-a3c2-fe796bcb4004.png" 
             alt="Supsindex Logo" 
@@ -679,7 +679,7 @@ export const CompleteDashboard = () => {
         </aside>
 
         {/* Main Content */}
-        <main className="md:ml-64 mt-16 p-6 overflow-x-hidden overflow-y-auto">
+        <main className="mt-16 p-6 overflow-x-hidden overflow-y-auto">
           {renderMainContent()}
         </main>
       </div>
