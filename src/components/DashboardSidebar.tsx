@@ -59,11 +59,11 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ onItemSelect
       <Button
         variant="ghost"
         onClick={() => handleItemClick(item)}
-        className={`w-full justify-start text-left p-3 mb-1 ${
+        className={`w-full justify-start text-left p-2 mb-1 text-xs ${
           isSelected(item.id) 
-            ? 'bg-primary/10 text-primary shadow-md ring-2 ring-primary/20' 
+            ? 'bg-primary/10 text-primary shadow-md ring-1 ring-primary/20' 
             : 'hover:bg-muted/50'
-        } ${level > 0 ? 'ml-4 text-sm' : 'font-medium'}`}
+        } ${level > 0 ? 'ml-2 text-xs' : 'font-medium'}`}
       >
         {item.children && (
           <span className="mr-2">
@@ -86,8 +86,8 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ onItemSelect
   );
 
   return (
-    <aside className="fixed top-16 left-0 h-[calc(100vh-4rem)] w-64 bg-background shadow-lg p-4 z-40 overflow-y-auto border-r border-border">
-      <nav className="space-y-2">
+    <aside className="fixed top-16 left-0 h-[calc(100vh-4rem)] w-48 bg-background shadow-lg p-2 z-40 overflow-y-auto border-r border-border">
+      <nav className="space-y-1">
         {sidebarItems.map(item => renderSidebarItem(item))}
       </nav>
     </aside>

@@ -361,7 +361,7 @@ export const MasterDetailDashboard = () => {
       />
 
       {/* Main Content Area */}
-      <main className="md:ml-64 mt-16 p-4 overflow-hidden w-full h-[calc(100vh-4rem)] flex">
+      <main className="md:ml-48 mt-16 p-2 overflow-hidden w-full h-[calc(100vh-4rem)] flex">
         <div className="w-full mx-auto flex items-center justify-center">
           {renderMainContent()}
         </div>
