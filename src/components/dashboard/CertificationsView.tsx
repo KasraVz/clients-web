@@ -89,67 +89,50 @@ export const CertificationsView = () => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full overflow-hidden">
       <div className="w-full max-w-full mx-auto px-2">
         <TooltipProvider>
       <Card className="shadow-lg">
-        <CardContent className="p-3">
-          <h2 className="text-lg font-bold mb-3">Certifications</h2>
-          <div className="w-full">
-            <Table className="w-full text-xs">
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-12 p-1 text-xs">ID</TableHead>
-                  <TableHead className="w-16 p-1 text-xs">Date</TableHead>
-                  <TableHead className="p-1 text-xs">Test</TableHead>
-                  <TableHead className="w-12 p-1 text-xs">Status</TableHead>
-                  <TableHead className="w-8 p-1 text-xs">👁</TableHead>
-                  <TableHead className="w-8 p-1 text-xs">📁</TableHead>
-                  <TableHead className="w-8 p-1 text-xs">📤</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {certifications.map((cert) => (
-                  <TableRow key={cert.id}>
-                    <TableCell className="font-mono text-xs p-1">{cert.id.replace('#CERT-', '')}</TableCell>
-                    <TableCell className="text-xs p-1">{cert.testDate.replace('/2025', '')}</TableCell>
-                    <TableCell className="font-medium text-xs p-1">{cert.testName}</TableCell>
-                    <TableCell className="p-1">
-                      <Badge 
-                        variant={cert.status === 'Valid' ? 'secondary' : 'destructive'}
-                        className={`text-xs px-1 py-0 h-4 ${cert.status === 'Valid' ? 'bg-green-100 text-green-800' : ''}`}
-                      >
-                        {cert.status === 'Valid' ? '✓' : '✗'}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="p-1">
-                      <ActionButton
-                        icon={Eye}
-                        onClick={() => {}}
-                        disabled={!cert.isPurchased}
-                        tooltipText={!cert.isPurchased ? "You haven't purchased this item yet..." : undefined}
-                      />
-                    </TableCell>
-                    <TableCell className="p-1">
-                      <ActionButton
-                        icon={Download}
-                        onClick={() => {}}
-                        disabled={!cert.isPurchased}
-                        tooltipText={!cert.isPurchased ? "You haven't purchased this item yet..." : undefined}
-                      />
-                    </TableCell>
-                    <TableCell className="p-1">
-                      <ActionButton
-                        icon={Share}
-                        onClick={handleShare}
-                        disabled={!cert.isPurchased}
-                        tooltipText={!cert.isPurchased ? "You haven't purchased this item yet..." : undefined}
-                      />
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+        <CardContent className="p-2">
+          <h2 className="text-lg font-bold mb-2">Certifications</h2>
+          <div className="space-y-2">
+            {certifications.map((cert) => (
+              <div key={cert.id} className="flex items-center justify-between bg-muted/20 rounded p-2 text-xs">
+                <div className="flex-1 min-w-0">
+                  <div className="font-mono text-xs truncate">{cert.id.replace('#CERT-', '')}</div>
+                  <div className="text-xs text-muted-foreground">{cert.testDate.replace('/2025', '')}</div>
+                </div>
+                <div className="flex-1 min-w-0 px-2">
+                  <div className="font-medium text-xs truncate">{cert.testName}</div>
+                  <Badge 
+                    variant={cert.status === 'Valid' ? 'secondary' : 'destructive'}
+                    className={`text-xs px-1 py-0 h-4 mt-1 ${cert.status === 'Valid' ? 'bg-green-100 text-green-800' : ''}`}
+                  >
+                    {cert.status === 'Valid' ? '✓' : '✗'}
+                  </Badge>
+                </div>
+                <div className="flex gap-1 flex-shrink-0">
+                  <ActionButton
+                    icon={Eye}
+                    onClick={() => {}}
+                    disabled={!cert.isPurchased}
+                    tooltipText={!cert.isPurchased ? "Not purchased" : undefined}
+                  />
+                  <ActionButton
+                    icon={Download}
+                    onClick={() => {}}
+                    disabled={!cert.isPurchased}
+                    tooltipText={!cert.isPurchased ? "Not purchased" : undefined}
+                  />
+                  <ActionButton
+                    icon={Share}
+                    onClick={handleShare}
+                    disabled={!cert.isPurchased}
+                    tooltipText={!cert.isPurchased ? "Not purchased" : undefined}
+                  />
+                </div>
+              </div>
+            ))}
           </div>
         </CardContent>
       </Card>
