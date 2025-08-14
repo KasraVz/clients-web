@@ -679,7 +679,7 @@ export const CompleteDashboard = () => {
         </aside>
 
         {/* Main Content */}
-        <main className="mt-16 p-6 overflow-x-hidden overflow-y-auto">
+        <main className="md:ml-64 mt-16 p-6 overflow-x-hidden overflow-y-auto">
           {renderMainContent()}
         </main>
       </div>
