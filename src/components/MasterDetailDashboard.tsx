@@ -264,12 +264,6 @@ export const MasterDetailDashboard = () => {
       return (
         <div className="flex items-center justify-center h-96">
           <div className="text-center space-y-6">
-            <img 
-              src={supsindexLogo} 
-              alt="Supsindex Logo" 
-              className="w-64 h-auto mx-auto opacity-70 bg-transparent"
-              style={{ mixBlendMode: 'multiply' }}
-            />
             <p className="text-lg text-muted-foreground">
               Click an item in the sidebar to get started
             </p>
