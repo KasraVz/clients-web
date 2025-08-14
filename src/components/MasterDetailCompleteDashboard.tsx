@@ -1006,6 +1006,32 @@ const MasterDetailCompleteDashboard: React.FC = () => {
           </Collapse>
 
           <ListItem disablePadding>
+            <ListItemButton onClick={() => handleSidebarToggle('certs')}>
+              <ListItemText primary="Certs & Reports" />
+              {sidebarExpanded.certs ? <ExpandLess /> : <ExpandMore />}
+            </ListItemButton>
+          </ListItem>
+
+          <Collapse in={sidebarExpanded.certs} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItemButton 
+                sx={{ pl: 4 }}
+                onClick={() => setActiveView('reports')}
+                className={activeView === 'reports' ? 'bg-blue-50 shadow-md' : ''}
+              >
+                <ListItemText primary="Reports" />
+              </ListItemButton>
+              <ListItemButton 
+                sx={{ pl: 4 }}
+                onClick={() => setActiveView('certifications')}
+                className={activeView === 'certifications' ? 'bg-blue-50 shadow-md' : ''}
+              >
+                <ListItemText primary="Certifications" />
+              </ListItemButton>
+            </List>
+          </Collapse>
+
+          <ListItem disablePadding>
             <ListItemButton 
               onClick={() => setActiveView('booked-tests')}
               className={activeView === 'booked-tests' ? 'bg-blue-50 shadow-md' : ''}
@@ -1040,31 +1066,6 @@ const MasterDetailCompleteDashboard: React.FC = () => {
               <ListItemText primary="Test History" />
             </ListItemButton>
           </ListItem>
-
-          <ListItem disablePadding>
-            <ListItemButton onClick={() => handleSidebarToggle('certs')}>
-              <ListItemText primary="Certs & Reports" />
-              {sidebarExpanded.certs ? <ExpandLess /> : <ExpandMore />}
-            </ListItemButton>
-          </ListItem>
-          <Collapse in={sidebarExpanded.certs} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItemButton 
-                sx={{ pl: 4 }}
-                onClick={() => setActiveView('reports')}
-                className={activeView === 'reports' ? 'bg-blue-50 shadow-md' : ''}
-              >
-                <ListItemText primary="Reports" />
-              </ListItemButton>
-              <ListItemButton 
-                sx={{ pl: 4 }}
-                onClick={() => setActiveView('certifications')}
-                className={activeView === 'certifications' ? 'bg-blue-50 shadow-md' : ''}
-              >
-                <ListItemText primary="Certifications" />
-              </ListItemButton>
-            </List>
-          </Collapse>
         </List>
       </Drawer>
 
