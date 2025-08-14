@@ -59,13 +59,15 @@ import {
   Telegram,
   Email,
   AttachFile,
+  MailOutline,
+  RadioButtonUnchecked,
+  RadioButtonChecked,
 } from '@mui/icons-material';
 import { toast } from 'sonner';
 
 type DetailView = 
   | 'welcome'
-  | 'profile-photo'
-  | 'profile-info'
+  | 'profile'
   | 'notifications'
   | 'booked-tests'
   | 'feedback-panel'
@@ -172,6 +174,8 @@ const MasterDetailCompleteDashboard: React.FC = () => {
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [timeModalOpen, setTimeModalOpen] = useState(false);
   const [commentModalOpen, setCommentModalOpen] = useState(false);
+  const [invisibleAccountModalOpen, setInvisibleAccountModalOpen] = useState(false);
+  const [deleteAccountModalOpen, setDeleteAccountModalOpen] = useState(false);
   const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
   const [photoRulesAnchor, setPhotoRulesAnchor] = useState<null | HTMLElement>(null);
   const [newEmail, setNewEmail] = useState('');
@@ -179,6 +183,10 @@ const MasterDetailCompleteDashboard: React.FC = () => {
   const [selectedFeedback, setSelectedFeedback] = useState<string[]>([]);
   const [feedbackComment, setFeedbackComment] = useState('');
   const [currentFeedbackId, setCurrentFeedbackId] = useState('');
+  const [invisibleReason, setInvisibleReason] = useState('');
+  const [customInvisibleReason, setCustomInvisibleReason] = useState('');
+  const [deleteReason, setDeleteReason] = useState('');
+  const [customDeleteReason, setCustomDeleteReason] = useState('');
   
   // Ticketing system state
   const [ticketSubject, setTicketSubject] = useState('');
@@ -478,61 +486,42 @@ const MasterDetailCompleteDashboard: React.FC = () => {
     </div>
   );
 
-  const renderProfilePhotoView = () => (
+  const renderProfileView = () => (
     <div className="w-full flex flex-col items-center justify-center space-y-6 p-8">
-      <Avatar 
-        src={userData.avatar}
-        sx={{ width: 288, height: 288 }}
-        className="shadow-lg"
-      />
-      <div className="flex space-x-4">
-        <Button variant="contained" startIcon={<Upload />}>
-          Upload new photo
-        </Button>
-        <Button variant="outlined" startIcon={<CameraAlt />}>
-          Take photo
-        </Button>
-      </div>
-      <div className="flex items-center space-x-2">
-        <IconButton 
-          size="small"
-          onClick={handlePhotoRulesClick}
-          className="text-gray-500"
-        >
-          <HelpOutline />
-        </IconButton>
-        <Typography variant="caption" className="text-gray-500">
-          Photo requirements
-        </Typography>
-      </div>
-      <Button variant="contained" size="large" className="mt-4">
-        Submit
-      </Button>
-      
-      <Popover
-        open={Boolean(photoRulesAnchor)}
-        anchorEl={photoRulesAnchor}
-        onClose={handlePhotoRulesClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
-        }}
-      >
-        <Box p={2} maxWidth={200}>
-          <Typography variant="caption">
-            • Use clear, recent photo
-            • Face should be visible
-            • No filters or edits
-            • JPG or PNG format
+      {/* Profile Photo Section */}
+      <div className="flex flex-col items-center space-y-6">
+        <Avatar 
+          src={userData.avatar}
+          sx={{ width: 288, height: 288 }}
+          className="shadow-lg"
+        />
+        <div className="flex space-x-4">
+          <Button variant="contained" startIcon={<Upload />}>
+            Upload new photo
+          </Button>
+          <Button variant="outlined" startIcon={<CameraAlt />}>
+            Take photo
+          </Button>
+        </div>
+        <div className="flex items-center space-x-2">
+          <IconButton 
+            size="small"
+            onClick={handlePhotoRulesClick}
+            className="text-gray-500"
+          >
+            <HelpOutline />
+          </IconButton>
+          <Typography variant="caption" className="text-gray-500">
+            Photo requirements
           </Typography>
-        </Box>
-      </Popover>
-    </div>
-  );
+        </div>
+        <Button variant="contained" size="large" className="mt-4">
+          Submit
+        </Button>
+      </div>
 
-  const renderProfileInfoView = () => (
-    <div className="w-full flex flex-col items-center justify-center p-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl w-full">
+      {/* Profile Information Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl w-full mt-8">
         <TextField
           label="Name"
           value={userData.name}
@@ -588,6 +577,46 @@ const MasterDetailCompleteDashboard: React.FC = () => {
           fullWidth
         />
       </div>
+
+      {/* Account Options Section */}
+      <div className="flex flex-col space-y-4 mt-8 max-w-md w-full">
+        <Typography variant="h6" className="text-center">Account Options</Typography>
+        <Button 
+          variant="outlined" 
+          color="warning"
+          onClick={() => setInvisibleAccountModalOpen(true)}
+          fullWidth
+        >
+          Make my Account Invisible
+        </Button>
+        <Button 
+          variant="outlined" 
+          color="error"
+          onClick={() => setDeleteAccountModalOpen(true)}
+          fullWidth
+        >
+          Delete my Account
+        </Button>
+      </div>
+      
+      <Popover
+        open={Boolean(photoRulesAnchor)}
+        anchorEl={photoRulesAnchor}
+        onClose={handlePhotoRulesClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+      >
+        <Box p={2} maxWidth={200}>
+          <Typography variant="caption">
+            • Use clear, recent photo
+            • Face should be visible
+            • No filters or edits
+            • JPG or PNG format
+          </Typography>
+        </Box>
+      </Popover>
     </div>
   );
 
@@ -1320,14 +1349,20 @@ const MasterDetailCompleteDashboard: React.FC = () => {
             </Typography>
             
             <div className="space-y-4">
-              <TextField
-                label="Subject"
-                fullWidth
-                variant="outlined"
-                value={ticketSubject}
-                onChange={(e) => setTicketSubject(e.target.value)}
-                placeholder="Brief description of your issue"
-              />
+              <FormControl fullWidth variant="outlined">
+                <InputLabel>Subject</InputLabel>
+                <Select
+                  value={ticketSubject}
+                  onChange={(e) => setTicketSubject(e.target.value)}
+                  label="Subject"
+                >
+                  <MenuItem value="Technical Issue">Technical Issue</MenuItem>
+                  <MenuItem value="Billing Inquiry">Billing Inquiry</MenuItem>
+                  <MenuItem value="General Question">General Question</MenuItem>
+                  <MenuItem value="Feedback">Feedback</MenuItem>
+                  <MenuItem value="Other">Other</MenuItem>
+                </Select>
+              </FormControl>
               
               <TextField
                 label="Description"
@@ -1456,10 +1491,8 @@ const MasterDetailCompleteDashboard: React.FC = () => {
     switch (activeView) {
       case 'welcome':
         return renderWelcomeView();
-      case 'profile-photo':
-        return renderProfilePhotoView();
-      case 'profile-info':
-        return renderProfileInfoView();
+      case 'profile':
+        return renderProfileView();
       case 'notifications':
         return renderNotificationsView();
       case 'booked-tests':
@@ -1513,12 +1546,12 @@ const MasterDetailCompleteDashboard: React.FC = () => {
               src={userData.avatar}
               sx={{ width: 40, height: 40 }}
               className="cursor-pointer"
-              onClick={() => setActiveView('profile-photo')}
+              onClick={() => setActiveView('profile')}
             />
             <Typography 
               variant="h6" 
               className="cursor-pointer font-semibold"
-              onClick={() => setActiveView('profile-info')}
+              onClick={() => setActiveView('profile')}
             >
               {userData.name}
             </Typography>
@@ -1827,14 +1860,98 @@ const MasterDetailCompleteDashboard: React.FC = () => {
         </DialogActions>
       </Dialog>
 
+      {/* Account Invisible Modal */}
+      <Dialog open={invisibleAccountModalOpen} onClose={() => setInvisibleAccountModalOpen(false)}>
+        <DialogTitle>Make Account Invisible</DialogTitle>
+        <DialogContent>
+          <div className="flex flex-col space-y-4 py-4">
+            <div className="flex items-center space-x-2">
+              <IconButton onClick={() => setInvisibleReason('private')}>
+                {invisibleReason === 'private' ? <RadioButtonChecked /> : <RadioButtonUnchecked />}
+              </IconButton>
+              <Typography>I prefer to keep my account private at all times</Typography>
+            </div>
+            <div className="flex items-center space-x-2">
+              <IconButton onClick={() => setInvisibleReason('temporary')}>
+                {invisibleReason === 'temporary' ? <RadioButtonChecked /> : <RadioButtonUnchecked />}
+              </IconButton>
+              <Typography>I don't want my account to be visible at this time</Typography>
+            </div>
+            <TextField
+              margin="dense"
+              label="Why do you want to make your account invisible?"
+              multiline
+              rows={4}
+              fullWidth
+              variant="outlined"
+              value={customInvisibleReason}
+              onChange={(e) => setCustomInvisibleReason(e.target.value)}
+            />
+          </div>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setInvisibleAccountModalOpen(false)}>Cancel</Button>
+          <Button variant="contained" color="warning">Submit</Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Delete Account Modal */}
+      <Dialog open={deleteAccountModalOpen} onClose={() => setDeleteAccountModalOpen(false)}>
+        <DialogTitle>Delete Account</DialogTitle>
+        <DialogContent>
+          <div className="flex flex-col space-y-4 py-4">
+            <FormControl fullWidth variant="outlined">
+              <InputLabel>Reason for deletion</InputLabel>
+              <Select
+                value={deleteReason}
+                onChange={(e) => setDeleteReason(e.target.value)}
+                label="Reason for deletion"
+              >
+                <MenuItem value="privacy">Privacy concerns</MenuItem>
+                <MenuItem value="no-need">No longer need the service</MenuItem>
+                <MenuItem value="bad-experience">Bad user experience</MenuItem>
+                <MenuItem value="other">Other</MenuItem>
+              </Select>
+            </FormControl>
+            {deleteReason === 'other' && (
+              <TextField
+                margin="dense"
+                label="Please explain"
+                multiline
+                rows={4}
+                fullWidth
+                variant="outlined"
+                value={customDeleteReason}
+                onChange={(e) => setCustomDeleteReason(e.target.value)}
+              />
+            )}
+          </div>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDeleteAccountModalOpen(false)}>Cancel</Button>
+          <Button variant="contained" color="error">Submit</Button>
+        </DialogActions>
+      </Dialog>
+
       {/* Footer */}
-      <footer className="fixed bottom-0 left-0 w-full h-16 bg-white shadow-md flex items-center justify-end px-4 z-50">
+      <footer className="fixed bottom-0 left-0 w-full h-16 bg-white shadow-md flex items-center justify-between px-4 z-50">
+        <Button 
+          variant="text" 
+          color="primary"
+          onClick={() => {
+            // Simulate logout redirect
+            alert('Redirecting to login page...');
+          }}
+        >
+          Logout
+        </Button>
+        
         <Tooltip title="Open Support Tickets">
           <IconButton 
             onClick={() => setActiveView('ticketing-system')}
             className="text-primary"
           >
-            <HelpOutline />
+            <MailOutline />
           </IconButton>
         </Tooltip>
       </footer>
