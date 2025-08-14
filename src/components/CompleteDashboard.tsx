@@ -170,41 +170,38 @@ export const CompleteDashboard = () => {
   };
 
   const renderProfilePhotoView = () => (
-    <div className="flex flex-col items-center justify-center min-h-full p-6">
-      <div className="flex flex-col items-center space-y-6 max-w-md w-full">
-        <Avatar className="w-72 h-72 text-6xl border-4 border-blue-100"
-          sx={{ 
-            backgroundColor: '#1976d2',
-            color: 'white',
-          }}
-        >
-          {userData.name.split(' ').map(n => n[0]).join('')}
-        </Avatar>
-        
-        <div className="flex gap-4 w-full">
-          <Button variant="outlined" startIcon={<Upload />} className="flex-1" size="large">
-            Upload new photo
-          </Button>
-          <Button variant="outlined" startIcon={<CameraAlt />} className="flex-1" size="large">
-            Take photo
-          </Button>
-        </div>
-
-        <Tooltip title="Photo should be clear, well-lit, and show your face clearly. Accepted formats: JPG, PNG. Max size: 5MB.">
-          <HelpOutline sx={{ fontSize: 20, color: 'gray', cursor: 'help' }} />
-        </Tooltip>
-
-        <Button variant="contained" color="primary" size="large" className="w-full">
-          Save Changes
+    <div className="w-full flex flex-col items-center justify-center space-y-6 p-8">
+      <Avatar className="w-72 h-72 text-6xl border-4 border-blue-100"
+        sx={{ 
+          backgroundColor: '#1976d2',
+          color: 'white',
+        }}
+      >
+        {userData.name.split(' ').map(n => n[0]).join('')}
+      </Avatar>
+      
+      <div className="flex gap-4 w-full max-w-md">
+        <Button variant="outlined" startIcon={<Upload />} className="flex-1" size="large">
+          Upload new photo
+        </Button>
+        <Button variant="outlined" startIcon={<CameraAlt />} className="flex-1" size="large">
+          Take photo
         </Button>
       </div>
+
+      <Tooltip title="Photo should be clear, well-lit, and show your face clearly. Accepted formats: JPG, PNG. Max size: 5MB.">
+        <HelpOutline sx={{ fontSize: 20, color: 'gray', cursor: 'help' }} />
+      </Tooltip>
+
+      <Button variant="contained" color="primary" size="large" className="w-full max-w-md">
+        Submit
+      </Button>
     </div>
   );
 
   const renderProfileInfoView = () => (
-    <div className="p-6 max-w-4xl mx-auto w-full">
-      <h1 className="text-3xl font-bold mb-8 text-center">Profile Information</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="w-full flex flex-col items-center justify-center p-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl w-full">
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
@@ -277,85 +274,119 @@ export const CompleteDashboard = () => {
   );
 
   const renderNotificationsView = () => (
-    <div className="p-6 max-w-xl mx-auto w-full">
+    <div className="max-w-xl mx-auto flex flex-col items-center space-y-4 p-4">
       <h2 className="text-2xl font-bold text-center mb-6">Notifications</h2>
-      <div className="space-y-4">
-        {notifications.map((notification) => (
-          <Card 
-            key={notification.id}
-            elevation={2}
-            sx={{ 
-              border: !notification.isRead ? '1px solid #e0e0e0' : 'none',
-              borderRadius: 2
-            }}
-          >
-            <CardContent className="p-4">
-              <p className="text-sm leading-relaxed">
-                {notification.content}
-                {notification.hasMoreLink && (
-                  <a href="#" className="text-blue-600 hover:underline ml-1">
-                    more
-                  </a>
-                )}
-              </p>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      {notifications.map((notification) => (
+        <Card 
+          key={notification.id}
+          elevation={2}
+          sx={{ 
+            border: !notification.isRead ? '1px solid #e0e0e0' : 'none',
+            borderRadius: 2,
+            width: '100%'
+          }}
+        >
+          <CardContent className="p-4">
+            <p className="text-sm leading-relaxed">
+              {notification.content}
+              {notification.hasMoreLink && (
+                <a href="#" className="text-blue-600 hover:underline ml-1">
+                  more
+                </a>
+              )}
+            </p>
+          </CardContent>
+        </Card>
+      ))}
     </div>
   );
 
   const renderFastTrakView = () => (
-    <div className="p-6 max-w-2xl mx-auto w-full">
-      <Card elevation={3}>
-        <CardContent className="text-center py-8">
-          <h1 className="text-4xl font-bold mb-4 text-blue-600">Fast Trak Tour</h1>
-          <p className="text-gray-600 max-w-xl mx-auto text-lg">
-            Accelerate your certification journey with our Fast Trak program. 
-            Get access to premium study materials, personalized coaching, and 
-            priority scheduling for your examinations.
-          </p>
-        </CardContent>
-      </Card>
+    <div className="w-full flex flex-col items-center justify-center p-8">
+      <div className="max-w-2xl w-full">
+        <Card elevation={3}>
+          <CardContent className="text-center py-8">
+            <h1 className="text-4xl font-bold mb-4 text-blue-600">Fast Trak Tour</h1>
+            <p className="text-gray-600 max-w-xl mx-auto text-lg">
+              Accelerate your certification journey with our Fast Trak program. 
+              Get access to premium study materials, personalized coaching, and 
+              priority scheduling for your examinations.
+            </p>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 
   const renderSpecialOfferView = () => (
-    <div className="p-6 max-w-6xl mx-auto w-full">
+    <div className="w-full flex flex-col items-center justify-center p-8">
       <h1 className="text-3xl font-bold text-center mb-8">Special Offers</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <Card elevation={3} className="h-full flex flex-col">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl w-full">
+        <Card 
+          elevation={3} 
+          className="h-full flex flex-col"
+          sx={{ 
+            borderRadius: '1.5rem 0.5rem 1.5rem 0.5rem',
+            background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+            color: 'white'
+          }}
+        >
           <CardContent className="flex-grow text-center p-6">
-            <h3 className="text-xl font-semibold mb-3 text-blue-600">Premium Package</h3>
-            <p className="text-gray-600 mb-4 flex-grow">
-              Get access to all certification materials, unlimited practice tests, and priority support.
+            <h3 className="text-xl font-semibold mb-3">FPA Exam Discount</h3>
+            <p className="mb-4 flex-grow">
+              Get 30% off your Financial Planning Assessment exam registration
             </p>
-            <Button variant="contained" color="primary" fullWidth size="large">
-              Learn More
+            <div className="bg-white/20 rounded-lg p-3 mb-4">
+              <p className="text-sm font-semibold">Save $150 on certification</p>
+            </div>
+            <Button variant="outlined" sx={{ color: 'white', borderColor: 'white' }} fullWidth size="large">
+              Book Now
             </Button>
           </CardContent>
         </Card>
         
-        <Card elevation={3} className="h-full flex flex-col">
+        <Card 
+          elevation={3} 
+          className="h-full flex flex-col"
+          sx={{ 
+            borderRadius: '0.5rem 1.5rem 0.5rem 1.5rem',
+            background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+            color: 'white'
+          }}
+        >
           <CardContent className="flex-grow text-center p-6">
-            <h3 className="text-xl font-semibold mb-3 text-purple-600">Group Discount</h3>
-            <p className="text-gray-600 mb-4 flex-grow">
-              Save 30% when you register 5 or more team members for certification programs.
+            <h3 className="text-xl font-semibold mb-3">EEA Bundle Special</h3>
+            <p className="mb-4 flex-grow">
+              Complete Economic Evaluation Assessment package with study materials
             </p>
-            <Button variant="contained" color="secondary" fullWidth size="large">
-              Get Started
+            <div className="bg-white/20 rounded-lg p-3 mb-4">
+              <p className="text-sm font-semibold">20% off full bundle + bonus materials</p>
+            </div>
+            <Button variant="outlined" sx={{ color: 'white', borderColor: 'white' }} fullWidth size="large">
+              Book Now
             </Button>
           </CardContent>
         </Card>
         
-        <Card elevation={3} className="h-full flex flex-col">
+        <Card 
+          elevation={3} 
+          className="h-full flex flex-col"
+          sx={{ 
+            borderRadius: '1.5rem',
+            background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
+            color: 'white'
+          }}
+        >
           <CardContent className="flex-grow text-center p-6">
-            <h3 className="text-xl font-semibold mb-3 text-green-600">Early Bird Special</h3>
-            <p className="text-gray-600 mb-4 flex-grow">
-              Register for next quarter's exams and save 20% on all certification fees.
+            <h3 className="text-xl font-semibold mb-3">Team Certification</h3>
+            <p className="mb-4 flex-grow">
+              Group rates for teams of 5 or more participants
             </p>
-            <Button variant="outlined" color="primary" fullWidth size="large">
-              Register Now
+            <div className="bg-white/20 rounded-lg p-3 mb-4">
+              <p className="text-sm font-semibold">Up to 40% savings per member</p>
+            </div>
+            <Button variant="outlined" sx={{ color: 'white', borderColor: 'white' }} fullWidth size="large">
+              Book Now
             </Button>
           </CardContent>
         </Card>
@@ -364,41 +395,43 @@ export const CompleteDashboard = () => {
   );
 
   const renderReportsView = () => (
-    <div className="p-6 max-w-6xl mx-auto w-full">
-      <Card elevation={3}>
-        <CardContent className="p-6">
-          <h2 className="text-2xl font-bold mb-4">Reports</h2>
-          <div className="overflow-x-auto">
-            <TableContainer component={Paper}>
-              <Table size="small">
-                <TableHead>
-                  <TableRow sx={{ backgroundColor: '#f5f5f5' }}>
-                    <TableCell sx={{ fontWeight: 'bold' }}>Report ID</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' }}>Test Date</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' }}>Publish Date</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' }}>Test Name</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' }}>Status</TableCell>
-                    <TableCell align="center" sx={{ fontWeight: 'bold' }}>Actions</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {reports.map((report) => (
-                    <TableRow key={report.id} sx={{ '&:hover': { backgroundColor: '#f9f9f9' } }}>
-                      <TableCell sx={{ fontWeight: 'medium' }}>{report.id}</TableCell>
-                      <TableCell>{report.testDate}</TableCell>
-                      <TableCell>{report.publishDate || '-'}</TableCell>
-                      <TableCell>{report.testName}</TableCell>
-                      <TableCell>
-                        <Chip
-                          label={report.status}
-                          color={report.status === 'Valid' ? 'success' : 'error'}
-                          size="small"
-                          icon={report.status === 'Valid' ? <CheckCircle /> : <Cancel />}
-                        />
-                      </TableCell>
-                      <TableCell align="center">
-                        <div className="flex gap-1 justify-center">
-                          <Tooltip title="Preview">
+    <div className="w-full flex flex-col items-center justify-center p-8">
+      <div className="max-w-6xl w-full">
+        <Card elevation={3}>
+          <CardContent className="p-6">
+            <h2 className="text-2xl font-bold mb-4">Reports</h2>
+            <div className="overflow-x-auto">
+              <TableContainer component={Paper}>
+                <Table size="small">
+                  <TableHead>
+                    <TableRow sx={{ backgroundColor: '#f5f5f5' }}>
+                      <TableCell sx={{ fontWeight: 'bold' }}>Report ID</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold' }}>Test Date</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold' }}>Publish Date</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold' }}>Test Name</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold' }}>Expired/Valid</TableCell>
+                      <TableCell align="center" sx={{ fontWeight: 'bold' }}>Preview</TableCell>
+                      <TableCell align="center" sx={{ fontWeight: 'bold' }}>Download</TableCell>
+                      <TableCell align="center" sx={{ fontWeight: 'bold' }}>Send to</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {reports.map((report) => (
+                      <TableRow key={report.id} sx={{ '&:hover': { backgroundColor: '#f9f9f9' } }}>
+                        <TableCell sx={{ fontWeight: 'medium' }}>{report.id}</TableCell>
+                        <TableCell>{report.testDate}</TableCell>
+                        <TableCell>{report.publishDate || '-'}</TableCell>
+                        <TableCell>{report.testName}</TableCell>
+                        <TableCell>
+                          <Chip
+                            label={report.status}
+                            color={report.status === 'Valid' ? 'success' : 'error'}
+                            size="small"
+                            icon={report.status === 'Valid' ? <CheckCircle /> : <Cancel />}
+                          />
+                        </TableCell>
+                        <TableCell align="center">
+                          <Tooltip title={report.isPurchased ? "Preview" : "You haven't purchased this item yet..."}>
                             <IconButton
                               size="small"
                               disabled={!report.isPurchased}
@@ -407,6 +440,8 @@ export const CompleteDashboard = () => {
                               <Visibility />
                             </IconButton>
                           </Tooltip>
+                        </TableCell>
+                        <TableCell align="center">
                           <Tooltip title={report.isPurchased ? "Download" : "You haven't purchased this item yet..."}>
                             <IconButton
                               size="small"
@@ -416,6 +451,8 @@ export const CompleteDashboard = () => {
                               <Download />
                             </IconButton>
                           </Tooltip>
+                        </TableCell>
+                        <TableCell align="center">
                           <Tooltip title={report.isPurchased ? "Send to" : "You haven't purchased this item yet..."}>
                             <IconButton
                               size="small"
@@ -426,53 +463,55 @@ export const CompleteDashboard = () => {
                               <Share />
                             </IconButton>
                           </Tooltip>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </div>
-        </CardContent>
-      </Card>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 
   const renderCertificationsView = () => (
-    <div className="p-6 max-w-6xl mx-auto w-full">
-      <Card elevation={3}>
-        <CardContent className="p-6">
-          <h2 className="text-2xl font-bold mb-4">Certifications</h2>
-          <div className="overflow-x-auto">
-            <TableContainer component={Paper}>
-              <Table size="small">
-                <TableHead>
-                  <TableRow sx={{ backgroundColor: '#f5f5f5' }}>
-                    <TableCell sx={{ fontWeight: 'bold' }}>Cert ID</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' }}>Test Date</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' }}>Test Name</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' }}>Status</TableCell>
-                    <TableCell align="center" sx={{ fontWeight: 'bold' }}>Actions</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {certifications.map((cert) => (
-                    <TableRow key={cert.id} sx={{ '&:hover': { backgroundColor: '#f9f9f9' } }}>
-                      <TableCell sx={{ fontWeight: 'medium' }}>{cert.id}</TableCell>
-                      <TableCell>{cert.testDate}</TableCell>
-                      <TableCell>{cert.testName}</TableCell>
-                      <TableCell>
-                        <Chip
-                          label={cert.status}
-                          color={cert.status === 'Valid' ? 'success' : 'error'}
-                          size="small"
-                          icon={cert.status === 'Valid' ? <CheckCircle /> : <Cancel />}
-                        />
-                      </TableCell>
-                      <TableCell align="center">
-                        <div className="flex gap-1 justify-center">
-                          <Tooltip title="Preview">
+    <div className="w-full flex flex-col items-center justify-center p-8">
+      <div className="max-w-6xl w-full">
+        <Card elevation={3}>
+          <CardContent className="p-6">
+            <h2 className="text-2xl font-bold mb-4">Certifications</h2>
+            <div className="overflow-x-auto">
+              <TableContainer component={Paper}>
+                <Table size="small">
+                  <TableHead>
+                    <TableRow sx={{ backgroundColor: '#f5f5f5' }}>
+                      <TableCell sx={{ fontWeight: 'bold' }}>Cert ID</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold' }}>Test Date</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold' }}>Test Name</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold' }}>Expired/Valid</TableCell>
+                      <TableCell align="center" sx={{ fontWeight: 'bold' }}>Preview</TableCell>
+                      <TableCell align="center" sx={{ fontWeight: 'bold' }}>Download</TableCell>
+                      <TableCell align="center" sx={{ fontWeight: 'bold' }}>Share to</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {certifications.map((cert) => (
+                      <TableRow key={cert.id} sx={{ '&:hover': { backgroundColor: '#f9f9f9' } }}>
+                        <TableCell sx={{ fontWeight: 'medium' }}>{cert.id}</TableCell>
+                        <TableCell>{cert.testDate}</TableCell>
+                        <TableCell>{cert.testName}</TableCell>
+                        <TableCell>
+                          <Chip
+                            label={cert.status}
+                            color={cert.status === 'Valid' ? 'success' : 'error'}
+                            size="small"
+                            icon={cert.status === 'Valid' ? <CheckCircle /> : <Cancel />}
+                          />
+                        </TableCell>
+                        <TableCell align="center">
+                          <Tooltip title={cert.isPurchased ? "Preview" : "You haven't purchased this item yet..."}>
                             <IconButton
                               size="small"
                               disabled={!cert.isPurchased}
@@ -481,6 +520,8 @@ export const CompleteDashboard = () => {
                               <Visibility />
                             </IconButton>
                           </Tooltip>
+                        </TableCell>
+                        <TableCell align="center">
                           <Tooltip title={cert.isPurchased ? "Download" : "You haven't purchased this item yet..."}>
                             <IconButton
                               size="small"
@@ -490,6 +531,8 @@ export const CompleteDashboard = () => {
                               <Download />
                             </IconButton>
                           </Tooltip>
+                        </TableCell>
+                        <TableCell align="center">
                           <Tooltip title={cert.isPurchased ? "Share to" : "You haven't purchased this item yet..."}>
                             <IconButton
                               size="small"
@@ -500,16 +543,16 @@ export const CompleteDashboard = () => {
                               <Share />
                             </IconButton>
                           </Tooltip>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </div>
-        </CardContent>
-      </Card>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 
