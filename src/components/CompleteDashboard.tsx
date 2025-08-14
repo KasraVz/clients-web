@@ -174,37 +174,39 @@ export const CompleteDashboard = () => {
   };
 
   const renderProfilePhotoView = () => (
-    <div className="w-full flex flex-col items-center justify-center space-y-6 p-8">
-      <Avatar className="w-72 h-72 text-6xl border-4 border-blue-100"
-        sx={{ 
-          backgroundColor: '#1976d2',
-          color: 'white',
-        }}
-      >
-        {userData.name.split(' ').map(n => n[0]).join('')}
-      </Avatar>
-      
-      <div className="flex gap-4 w-full max-w-md">
-        <Button variant="outlined" startIcon={<Upload />} className="flex-1" size="large">
-          Upload new photo
-        </Button>
-        <Button variant="outlined" startIcon={<CameraAlt />} className="flex-1" size="large">
-          Take photo
+    <div className="w-full h-full flex flex-col items-center justify-center space-y-6 p-8">
+      <div className="flex flex-col items-center space-y-6">
+        <Avatar className="w-72 h-72 text-6xl border-4 border-blue-100"
+          sx={{ 
+            backgroundColor: '#1976d2',
+            color: 'white',
+          }}
+        >
+          {userData.name.split(' ').map(n => n[0]).join('')}
+        </Avatar>
+        
+        <div className="flex gap-4 w-full max-w-md">
+          <Button variant="outlined" startIcon={<Upload />} className="flex-1" size="large">
+            Upload new photo
+          </Button>
+          <Button variant="outlined" startIcon={<CameraAlt />} className="flex-1" size="large">
+            Take photo
+          </Button>
+        </div>
+
+        <Tooltip title="Photo should be clear, well-lit, and show your face clearly. Accepted formats: JPG, PNG. Max size: 5MB.">
+          <HelpOutline sx={{ fontSize: 20, color: 'gray', cursor: 'help' }} />
+        </Tooltip>
+
+        <Button variant="contained" color="primary" size="large" className="w-full max-w-md">
+          Submit
         </Button>
       </div>
-
-      <Tooltip title="Photo should be clear, well-lit, and show your face clearly. Accepted formats: JPG, PNG. Max size: 5MB.">
-        <HelpOutline sx={{ fontSize: 20, color: 'gray', cursor: 'help' }} />
-      </Tooltip>
-
-      <Button variant="contained" color="primary" size="large" className="w-full max-w-md">
-        Submit
-      </Button>
     </div>
   );
 
   const renderProfileInfoView = () => (
-    <div className="w-full flex flex-col items-center justify-center p-8">
+    <div className="w-full h-full flex flex-col items-center justify-center p-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl w-full">
         <div className="space-y-4">
           <div>
@@ -278,35 +280,37 @@ export const CompleteDashboard = () => {
   );
 
   const renderNotificationsView = () => (
-    <div className="max-w-xl mx-auto flex flex-col items-center space-y-4 p-4">
-      <h2 className="text-2xl font-bold text-center mb-6">Notifications</h2>
-      {notifications.map((notification) => (
-        <Card 
-          key={notification.id}
-          elevation={2}
-          sx={{ 
-            border: !notification.isRead ? '1px solid #e0e0e0' : 'none',
-            borderRadius: 2,
-            width: '100%'
-          }}
-        >
-          <CardContent className="p-4">
-            <p className="text-sm leading-relaxed">
-              {notification.content}
-              {notification.hasMoreLink && (
-                <a href="#" className="text-blue-600 hover:underline ml-1">
-                  more
-                </a>
-              )}
-            </p>
-          </CardContent>
-        </Card>
-      ))}
+    <div className="w-full h-full flex flex-col items-center justify-center p-8">
+      <div className="max-w-xl w-full flex flex-col items-center space-y-4">
+        <h2 className="text-2xl font-bold text-center mb-6">Notifications</h2>
+        {notifications.map((notification) => (
+          <Card 
+            key={notification.id}
+            elevation={2}
+            sx={{ 
+              border: !notification.isRead ? '1px solid #e0e0e0' : 'none',
+              borderRadius: 2,
+              width: '100%'
+            }}
+          >
+            <CardContent className="p-4">
+              <p className="text-sm leading-relaxed">
+                {notification.content}
+                {notification.hasMoreLink && (
+                  <a href="#" className="text-blue-600 hover:underline ml-1">
+                    more
+                  </a>
+                )}
+              </p>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 
   const renderFastTrakView = () => (
-    <div className="w-full flex flex-col items-center justify-center p-8">
+    <div className="w-full h-full flex flex-col items-center justify-center p-8">
       <div className="max-w-2xl w-full">
         <Card elevation={3}>
           <CardContent className="text-center py-8">
@@ -323,83 +327,85 @@ export const CompleteDashboard = () => {
   );
 
   const renderSpecialOfferView = () => (
-    <div className="w-full flex flex-col items-center justify-center p-8">
-      <h1 className="text-3xl font-bold text-center mb-8">Special Offers</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl w-full">
-        <Card 
-          elevation={3} 
-          className="h-full flex flex-col"
-          sx={{ 
-            borderRadius: '1.5rem 0.5rem 1.5rem 0.5rem',
-            background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
-            color: 'white'
-          }}
-        >
-          <CardContent className="flex-grow text-center p-6">
-            <h3 className="text-xl font-semibold mb-3">FPA Exam Discount</h3>
-            <p className="mb-4 flex-grow">
-              Get 30% off your Financial Planning Assessment exam registration
-            </p>
-            <div className="bg-white/20 rounded-lg p-3 mb-4">
-              <p className="text-sm font-semibold">Save $150 on certification</p>
-            </div>
-            <Button variant="outlined" sx={{ color: 'white', borderColor: 'white' }} fullWidth size="large">
-              Book Now
-            </Button>
-          </CardContent>
-        </Card>
-        
-        <Card 
-          elevation={3} 
-          className="h-full flex flex-col"
-          sx={{ 
-            borderRadius: '0.5rem 1.5rem 0.5rem 1.5rem',
-            background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-            color: 'white'
-          }}
-        >
-          <CardContent className="flex-grow text-center p-6">
-            <h3 className="text-xl font-semibold mb-3">EEA Bundle Special</h3>
-            <p className="mb-4 flex-grow">
-              Complete Economic Evaluation Assessment package with study materials
-            </p>
-            <div className="bg-white/20 rounded-lg p-3 mb-4">
-              <p className="text-sm font-semibold">20% off full bundle + bonus materials</p>
-            </div>
-            <Button variant="outlined" sx={{ color: 'white', borderColor: 'white' }} fullWidth size="large">
-              Book Now
-            </Button>
-          </CardContent>
-        </Card>
-        
-        <Card 
-          elevation={3} 
-          className="h-full flex flex-col"
-          sx={{ 
-            borderRadius: '1.5rem',
-            background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
-            color: 'white'
-          }}
-        >
-          <CardContent className="flex-grow text-center p-6">
-            <h3 className="text-xl font-semibold mb-3">Team Certification</h3>
-            <p className="mb-4 flex-grow">
-              Group rates for teams of 5 or more participants
-            </p>
-            <div className="bg-white/20 rounded-lg p-3 mb-4">
-              <p className="text-sm font-semibold">Up to 40% savings per member</p>
-            </div>
-            <Button variant="outlined" sx={{ color: 'white', borderColor: 'white' }} fullWidth size="large">
-              Book Now
-            </Button>
-          </CardContent>
-        </Card>
+    <div className="w-full h-full flex flex-col items-center justify-center p-8">
+      <div className="w-full max-w-6xl">
+        <h1 className="text-3xl font-bold text-center mb-8">Special Offers</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+          <Card 
+            elevation={3} 
+            className="h-full flex flex-col"
+            sx={{ 
+              borderRadius: '1.5rem 0.5rem 1.5rem 0.5rem',
+              background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+              color: 'white'
+            }}
+          >
+            <CardContent className="flex-grow text-center p-6">
+              <h3 className="text-xl font-semibold mb-3">FPA Exam Discount</h3>
+              <p className="mb-4 flex-grow">
+                Get 30% off your Financial Planning Assessment exam registration
+              </p>
+              <div className="bg-white/20 rounded-lg p-3 mb-4">
+                <p className="text-sm font-semibold">Save $150 on certification</p>
+              </div>
+              <Button variant="outlined" sx={{ color: 'white', borderColor: 'white' }} fullWidth size="large">
+                Book Now
+              </Button>
+            </CardContent>
+          </Card>
+          
+          <Card 
+            elevation={3} 
+            className="h-full flex flex-col"
+            sx={{ 
+              borderRadius: '0.5rem 1.5rem 0.5rem 1.5rem',
+              background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+              color: 'white'
+            }}
+          >
+            <CardContent className="flex-grow text-center p-6">
+              <h3 className="text-xl font-semibold mb-3">EEA Bundle Special</h3>
+              <p className="mb-4 flex-grow">
+                Complete Economic Evaluation Assessment package with study materials
+              </p>
+              <div className="bg-white/20 rounded-lg p-3 mb-4">
+                <p className="text-sm font-semibold">20% off full bundle + bonus materials</p>
+              </div>
+              <Button variant="outlined" sx={{ color: 'white', borderColor: 'white' }} fullWidth size="large">
+                Book Now
+              </Button>
+            </CardContent>
+          </Card>
+          
+          <Card 
+            elevation={3} 
+            className="h-full flex flex-col"
+            sx={{ 
+              borderRadius: '1.5rem',
+              background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
+              color: 'white'
+            }}
+          >
+            <CardContent className="flex-grow text-center p-6">
+              <h3 className="text-xl font-semibold mb-3">Team Certification</h3>
+              <p className="mb-4 flex-grow">
+                Group rates for teams of 5 or more participants
+              </p>
+              <div className="bg-white/20 rounded-lg p-3 mb-4">
+                <p className="text-sm font-semibold">Up to 40% savings per member</p>
+              </div>
+              <Button variant="outlined" sx={{ color: 'white', borderColor: 'white' }} fullWidth size="large">
+                Book Now
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );
 
   const renderReportsView = () => (
-    <div className="w-full flex flex-col items-center justify-center p-8">
+    <div className="w-full h-full flex flex-col items-center justify-center p-8">
       <div className="max-w-6xl w-full">
         <Card elevation={3}>
           <CardContent className="p-6">
@@ -481,7 +487,7 @@ export const CompleteDashboard = () => {
   );
 
   const renderCertificationsView = () => (
-    <div className="w-full flex flex-col items-center justify-center p-8">
+    <div className="w-full h-full flex flex-col items-center justify-center p-8">
       <div className="max-w-6xl w-full">
         <Card elevation={3}>
           <CardContent className="p-6">
