@@ -51,6 +51,10 @@ import {
   CameraAlt,
   Apps,
   Chair,
+  ContentCopy,
+  WhatsApp,
+  Telegram,
+  Email,
 } from '@mui/icons-material';
 import { toast } from 'sonner';
 
@@ -66,7 +70,9 @@ type DetailView =
   | 'fast-trak'
   | 'special-offer'
   | 'reports'
-  | 'certifications';
+  | 'certifications'
+  | 'affiliate-section'
+  | 'referral-section';
 
 interface Notification {
   id: string;
@@ -119,12 +125,29 @@ interface TestHistoryItem {
   kycStatus: 'Accepted' | 'Not Accepted';
 }
 
+interface AffiliateEntity {
+  id: string;
+  name: string;
+  logo: string;
+  code: string;
+  entryDate: string;
+  testsRequested: string[];
+}
+
+interface ReferralUser {
+  id: string;
+  name: string;
+  registrationDate: string;
+  status: 'Active' | 'Pending';
+}
+
 const MasterDetailCompleteDashboard: React.FC = () => {
   const [activeView, setActiveView] = useState<DetailView>('welcome');
   const [notificationCount, setNotificationCount] = useState(3);
   const [sidebarExpanded, setSidebarExpanded] = useState({
     supsindex: false,
     certs: false,
+    referral: false,
   });
   const [emailModalOpen, setEmailModalOpen] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
@@ -278,11 +301,66 @@ const MasterDetailCompleteDashboard: React.FC = () => {
     }
   ];
 
-  const handleSidebarToggle = (section: 'supsindex' | 'certs') => {
+  const affiliateEntities: AffiliateEntity[] = [
+    {
+      id: 'AFF001',
+      name: 'TechCorp Solutions',
+      logo: '/api/placeholder/60/60',
+      code: 'TECH2024',
+      entryDate: '2023-06-15',
+      testsRequested: ['FPA Certification', 'EEA Assessment', 'Business Analysis']
+    },
+    {
+      id: 'AFF002',
+      name: 'Global Learning Institute',
+      logo: '/api/placeholder/60/60',
+      code: 'GLI2024',
+      entryDate: '2023-08-20',
+      testsRequested: ['Advanced Analytics', 'Project Management']
+    },
+    {
+      id: 'AFF003',
+      name: 'Innovation Hub',
+      logo: '/api/placeholder/60/60',
+      code: 'INNOV2024',
+      entryDate: '2023-09-10',
+      testsRequested: ['Digital Transformation', 'Leadership Assessment']
+    }
+  ];
+
+  const referralUsers: ReferralUser[] = [
+    {
+      id: 'REF001',
+      name: 'Sarah Johnson',
+      registrationDate: '2023-11-15',
+      status: 'Active'
+    },
+    {
+      id: 'REF002',
+      name: 'Michael Chen',
+      registrationDate: '2023-12-02',
+      status: 'Active'
+    },
+    {
+      id: 'REF003',
+      name: 'Emily Rodriguez',
+      registrationDate: '2024-01-08',
+      status: 'Pending'
+    }
+  ];
+
+  const userReferralCode = 'JS2024REF';
+
+  const handleSidebarToggle = (section: 'supsindex' | 'certs' | 'referral') => {
     setSidebarExpanded(prev => ({
       ...prev,
       [section]: !prev[section]
     }));
+  };
+
+  const handleCopyReferralCode = () => {
+    navigator.clipboard.writeText(userReferralCode);
+    toast.success('Referral code copied to clipboard!');
   };
 
   const handleNotificationClick = () => {
@@ -884,6 +962,142 @@ const MasterDetailCompleteDashboard: React.FC = () => {
     </div>
   );
 
+  const renderAffiliateSectionView = () => (
+    <div className="w-full flex flex-col items-center justify-center p-8">
+      <div className="max-w-2xl w-full space-y-6">
+        {affiliateEntities.map((affiliate) => (
+          <Card key={affiliate.id} className="shadow-lg">
+            <CardContent className="p-6">
+              <div className="flex items-center space-x-4 mb-4">
+                <Avatar 
+                  src={affiliate.logo}
+                  sx={{ width: 60, height: 60 }}
+                  className="shadow-md"
+                />
+                <div className="flex-1">
+                  <Typography variant="h6" className="mb-1">
+                    <Button variant="text" color="primary">
+                      {affiliate.name}
+                    </Button>
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Affiliate Code: <strong>{affiliate.code}</strong>
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Entry Date: {affiliate.entryDate}
+                  </Typography>
+                </div>
+              </div>
+              <div>
+                <Typography variant="subtitle2" className="mb-2">
+                  Tests Requested:
+                </Typography>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {affiliate.testsRequested.map((test, index) => (
+                    <Chip 
+                      key={index}
+                      label={test}
+                      variant="outlined"
+                      size="small"
+                    />
+                  ))}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+
+  const renderReferralSectionView = () => (
+    <div className="w-full flex flex-col items-center justify-center p-8">
+      <div className="max-w-2xl w-full space-y-6">
+        {/* Referral Code Section */}
+        <Card className="shadow-lg">
+          <CardContent className="p-6 text-center">
+            <Typography variant="h5" className="mb-4">
+              Your Referral Code
+            </Typography>
+            <Box 
+              className="bg-gray-100 p-4 rounded-lg mb-4 border-2 border-dashed border-gray-300"
+            >
+              <Typography 
+                variant="h4" 
+                className="font-mono font-bold text-primary"
+              >
+                {userReferralCode}
+              </Typography>
+            </Box>
+            <Button 
+              variant="contained" 
+              startIcon={<ContentCopy />}
+              onClick={handleCopyReferralCode}
+              className="mb-4"
+            >
+              Copy Code
+            </Button>
+            
+            <Typography variant="h6" className="mb-3">
+              Quick Share
+            </Typography>
+            <div className="flex justify-center space-x-2">
+              <IconButton 
+                color="primary"
+                onClick={() => toast.success('WhatsApp share functionality coming soon!')}
+              >
+                <WhatsApp />
+              </IconButton>
+              <IconButton 
+                color="primary"
+                onClick={() => toast.success('Telegram share functionality coming soon!')}
+              >
+                <Telegram />
+              </IconButton>
+              <IconButton 
+                color="primary"
+                onClick={() => toast.success('Email share functionality coming soon!')}
+              >
+                <Email />
+              </IconButton>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Referral List Section */}
+        <Card className="shadow-lg">
+          <CardContent className="p-6">
+            <Typography variant="h6" className="mb-4">
+              Referral List ({referralUsers.length} users)
+            </Typography>
+            <div className="space-y-3">
+              {referralUsers.map((user) => (
+                <div 
+                  key={user.id}
+                  className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                >
+                  <div>
+                    <Typography variant="body1" className="font-medium">
+                      {user.name}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Registered: {user.registrationDate}
+                    </Typography>
+                  </div>
+                  <Chip 
+                    label={user.status}
+                    color={user.status === 'Active' ? 'success' : 'warning'}
+                    size="small"
+                  />
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+
   const renderMainContent = () => {
     switch (activeView) {
       case 'welcome':
@@ -910,6 +1124,10 @@ const MasterDetailCompleteDashboard: React.FC = () => {
         return renderReportsView();
       case 'certifications':
         return renderCertificationsView();
+      case 'affiliate-section':
+        return renderAffiliateSectionView();
+      case 'referral-section':
+        return renderReferralSectionView();
       default:
         return renderWelcomeView();
     }
@@ -1066,6 +1284,32 @@ const MasterDetailCompleteDashboard: React.FC = () => {
               <ListItemText primary="Test History" />
             </ListItemButton>
           </ListItem>
+
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => handleSidebarToggle('referral')}>
+              <ListItemText primary="Referral / Affiliate" />
+              {sidebarExpanded.referral ? <ExpandLess /> : <ExpandMore />}
+            </ListItemButton>
+          </ListItem>
+
+          <Collapse in={sidebarExpanded.referral} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItemButton 
+                sx={{ pl: 4 }}
+                onClick={() => setActiveView('affiliate-section')}
+                className={activeView === 'affiliate-section' ? 'bg-blue-50 shadow-md' : ''}
+              >
+                <ListItemText primary="Affiliate Section" />
+              </ListItemButton>
+              <ListItemButton 
+                sx={{ pl: 4 }}
+                onClick={() => setActiveView('referral-section')}
+                className={activeView === 'referral-section' ? 'bg-blue-50 shadow-md' : ''}
+              >
+                <ListItemText primary="Referral Section" />
+              </ListItemButton>
+            </List>
+          </Collapse>
         </List>
       </Drawer>
 
