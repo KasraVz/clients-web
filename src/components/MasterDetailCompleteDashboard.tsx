@@ -64,6 +64,21 @@ import {
   RadioButtonChecked,
   ChevronLeft,
   ChevronRight,
+  LocalOffer,
+  EventNote,
+  Feedback,
+  Group,
+  History,
+  People,
+  School,
+  ConnectWithoutContact,
+  VerifiedUser,
+  Assignment,
+  Star,
+  TrendingUp,
+  PersonAdd,
+  CardGiftcard,
+  QuestionAnswer,
 } from '@mui/icons-material';
 import { toast } from 'sonner';
 
@@ -1615,6 +1630,9 @@ const MasterDetailCompleteDashboard: React.FC = () => {
             <List className="p-4">
           <ListItem disablePadding>
             <ListItemButton onClick={() => handleSidebarToggle('supsindex')}>
+              <ListItemIcon>
+                <LocalOffer />
+              </ListItemIcon>
               <ListItemText primary="Supsindex Offer" />
               {sidebarExpanded.supsindex ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
@@ -1640,6 +1658,9 @@ const MasterDetailCompleteDashboard: React.FC = () => {
 
           <ListItem disablePadding>
             <ListItemButton onClick={() => handleSidebarToggle('certs')}>
+              <ListItemIcon>
+                <VerifiedUser />
+              </ListItemIcon>
               <ListItemText primary="Certs & Reports" />
               {sidebarExpanded.certs ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
@@ -1664,44 +1685,74 @@ const MasterDetailCompleteDashboard: React.FC = () => {
             </List>
           </Collapse>
 
+          {/* Separator */}
+          <div className="mx-4 my-2 h-px bg-gray-200"></div>
+          
           <ListItem disablePadding>
             <ListItemButton 
               onClick={() => setActiveView('booked-tests')}
               className={activeView === 'booked-tests' ? 'relative after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:w-3/4 after:h-0.5 after:bg-primary after:rounded-full after:shadow-lg after:shadow-primary/50' : ''}
             >
+              <ListItemIcon>
+                <EventNote />
+              </ListItemIcon>
               <ListItemText primary="Booked tests" />
             </ListItemButton>
           </ListItem>
+
+          {/* Separator */}
+          <div className="mx-4 my-2 h-px bg-gray-200"></div>
 
           <ListItem disablePadding>
             <ListItemButton 
               onClick={() => setActiveView('feedback-panel')}
               className={activeView === 'feedback-panel' ? 'relative after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:w-3/4 after:h-0.5 after:bg-primary after:rounded-full after:shadow-lg after:shadow-primary/50' : ''}
             >
+              <ListItemIcon>
+                <Feedback />
+              </ListItemIcon>
               <ListItemText primary="Feedback Panel" />
             </ListItemButton>
           </ListItem>
+
+          {/* Separator */}
+          <div className="mx-4 my-2 h-px bg-gray-200"></div>
 
           <ListItem disablePadding>
             <ListItemButton 
               onClick={() => setActiveView('community')}
               className={activeView === 'community' ? 'relative after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:w-3/4 after:h-0.5 after:bg-primary after:rounded-full after:shadow-lg after:shadow-primary/50' : ''}
             >
+              <ListItemIcon>
+                <Group />
+              </ListItemIcon>
               <ListItemText primary="Community" />
             </ListItemButton>
           </ListItem>
+
+          {/* Separator */}
+          <div className="mx-4 my-2 h-px bg-gray-200"></div>
 
           <ListItem disablePadding>
             <ListItemButton 
               onClick={() => setActiveView('test-history')}
               className={activeView === 'test-history' ? 'relative after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:w-3/4 after:h-0.5 after:bg-primary after:rounded-full after:shadow-lg after:shadow-primary/50' : ''}
             >
+              <ListItemIcon>
+                <History />
+              </ListItemIcon>
               <ListItemText primary="Test History" />
             </ListItemButton>
           </ListItem>
 
+          {/* Separator */}
+          <div className="mx-4 my-2 h-px bg-gray-200"></div>
+
           <ListItem disablePadding>
             <ListItemButton onClick={() => handleSidebarToggle('referral')}>
+              <ListItemIcon>
+                <People />
+              </ListItemIcon>
               <ListItemText primary="Referral / Affiliate" />
               {sidebarExpanded.referral ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
@@ -1726,8 +1777,14 @@ const MasterDetailCompleteDashboard: React.FC = () => {
             </List>
           </Collapse>
 
+          {/* Separator */}
+          <div className="mx-4 my-2 h-px bg-gray-200"></div>
+
           <ListItem disablePadding>
             <ListItemButton onClick={() => handleSidebarToggle('scholarship')}>
+              <ListItemIcon>
+                <School />
+              </ListItemIcon>
               <ListItemText primary="Scholarship" />
               {sidebarExpanded.scholarship ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
@@ -1752,14 +1809,23 @@ const MasterDetailCompleteDashboard: React.FC = () => {
             </List>
           </Collapse>
 
+          {/* Separator */}
+          <div className="mx-4 my-2 h-px bg-gray-200"></div>
+
           <ListItem disablePadding>
             <ListItemButton 
               onClick={() => setActiveView('connecting-team')}
               className={activeView === 'connecting-team' ? 'relative after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:w-3/4 after:h-0.5 after:bg-primary after:rounded-full after:shadow-lg after:shadow-primary/50' : ''}
             >
+              <ListItemIcon>
+                <ConnectWithoutContact />
+              </ListItemIcon>
               <ListItemText primary="Connecting with a team" />
             </ListItemButton>
           </ListItem>
+
+          {/* Separator */}
+          <div className="mx-4 my-2 h-px bg-gray-200"></div>
             </List>
           </>
         )}
