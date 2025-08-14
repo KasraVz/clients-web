@@ -1934,7 +1934,9 @@ const MasterDetailCompleteDashboard: React.FC = () => {
       </Dialog>
 
       {/* Footer */}
-      <footer className="fixed bottom-0 left-0 w-full h-16 bg-white shadow-md flex items-center justify-between px-4 z-50">
+      <footer className="fixed bottom-0 left-0 w-full h-16 bg-white shadow-md flex items-center justify-between px-4 z-50"
+        style={{ zIndex: 60 }}
+      >
         <Button 
           variant="text" 
           color="primary"
