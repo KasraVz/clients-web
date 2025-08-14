@@ -95,34 +95,34 @@ export const CertificationsView = () => {
       <Card className="shadow-lg">
         <CardContent className="p-4">
           <h2 className="text-xl font-bold mb-4">Certifications</h2>
-          <div className="w-full overflow-x-auto">
-            <Table className="w-full min-w-[600px]">
+          <div className="w-full">
+            <Table className="w-full">
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-20">ID</TableHead>
-                  <TableHead className="w-24">Date</TableHead>
-                  <TableHead className="min-w-32">Name</TableHead>
-                  <TableHead className="w-20">Status</TableHead>
-                  <TableHead className="w-16">View</TableHead>
-                  <TableHead className="w-16">Get</TableHead>
-                  <TableHead className="w-16">Share</TableHead>
+                  <TableHead className="w-16 text-xs">ID</TableHead>
+                  <TableHead className="w-20 text-xs">Date</TableHead>
+                  <TableHead className="flex-1 text-xs">Name</TableHead>
+                  <TableHead className="w-16 text-xs">Status</TableHead>
+                  <TableHead className="w-12 text-xs">View</TableHead>
+                  <TableHead className="w-12 text-xs">Get</TableHead>
+                  <TableHead className="w-12 text-xs">Share</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {certifications.map((cert) => (
                   <TableRow key={cert.id}>
-                    <TableCell className="font-mono text-sm">{cert.id}</TableCell>
-                    <TableCell className="text-sm">{cert.testDate}</TableCell>
-                    <TableCell className="font-medium">{cert.testName}</TableCell>
-                    <TableCell>
+                    <TableCell className="font-mono text-xs p-2">{cert.id.replace('#CERT-', '')}</TableCell>
+                    <TableCell className="text-xs p-2">{cert.testDate}</TableCell>
+                    <TableCell className="font-medium text-xs p-2">{cert.testName}</TableCell>
+                    <TableCell className="p-2">
                       <Badge 
                         variant={cert.status === 'Valid' ? 'secondary' : 'destructive'}
-                        className={`text-xs ${cert.status === 'Valid' ? 'bg-green-100 text-green-800' : ''}`}
+                        className={`text-xs px-1 py-0 ${cert.status === 'Valid' ? 'bg-green-100 text-green-800' : ''}`}
                       >
                         {cert.status}
                       </Badge>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="p-1">
                       <ActionButton
                         icon={Eye}
                         onClick={() => {}}
@@ -130,7 +130,7 @@ export const CertificationsView = () => {
                         tooltipText={!cert.isPurchased ? "You haven't purchased this item yet..." : undefined}
                       />
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="p-1">
                       <ActionButton
                         icon={Download}
                         onClick={() => {}}
@@ -138,7 +138,7 @@ export const CertificationsView = () => {
                         tooltipText={!cert.isPurchased ? "You haven't purchased this item yet..." : undefined}
                       />
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="p-1">
                       <ActionButton
                         icon={Share}
                         onClick={handleShare}
