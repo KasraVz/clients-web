@@ -62,6 +62,8 @@ import {
   MailOutline,
   RadioButtonUnchecked,
   RadioButtonChecked,
+  ChevronLeft,
+  ChevronRight,
 } from '@mui/icons-material';
 import { toast } from 'sonner';
 
@@ -164,6 +166,7 @@ interface Ticket {
 const MasterDetailCompleteDashboard: React.FC = () => {
   const [activeView, setActiveView] = useState<DetailView>('welcome');
   const [notificationCount, setNotificationCount] = useState(3);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [sidebarExpanded, setSidebarExpanded] = useState({
     supsindex: false,
     certs: false,
@@ -1579,21 +1582,37 @@ const MasterDetailCompleteDashboard: React.FC = () => {
       <Drawer
         variant="permanent"
         sx={{
-          width: 256,
+          width: isSidebarCollapsed ? 0 : 256,
           flexShrink: 0,
           zIndex: 30,
+          transition: 'width 0.3s ease-in-out',
           '& .MuiDrawer-paper': {
-            width: 256,
+            width: isSidebarCollapsed ? 0 : 256,
             boxSizing: 'border-box',
             top: 64,
             height: 'calc(100vh - 64px)',
             backgroundColor: 'white',
             boxShadow: '2px 0 4px rgba(0,0,0,0.1)',
-            zIndex: 30
+            zIndex: 30,
+            transition: 'width 0.3s ease-in-out',
+            overflow: 'hidden'
           },
         }}
       >
-        <List className="p-4">
+        {!isSidebarCollapsed && (
+          <>
+            {/* Collapse Button */}
+            <div className="flex justify-end p-2 border-b">
+              <IconButton 
+                onClick={() => setIsSidebarCollapsed(true)}
+                size="small"
+                className="text-gray-600"
+              >
+                <ChevronLeft />
+              </IconButton>
+            </div>
+            
+            <List className="p-4">
           <ListItem disablePadding>
             <ListItemButton onClick={() => handleSidebarToggle('supsindex')}>
               <ListItemText primary="Supsindex Offer" />
@@ -1741,11 +1760,26 @@ const MasterDetailCompleteDashboard: React.FC = () => {
               <ListItemText primary="Connecting with a team" />
             </ListItemButton>
           </ListItem>
-        </List>
+            </List>
+          </>
+        )}
       </Drawer>
 
+      {/* Expand Button - shown when sidebar is collapsed */}
+      {isSidebarCollapsed && (
+        <div className="fixed top-20 left-2 z-40">
+          <IconButton 
+            onClick={() => setIsSidebarCollapsed(false)}
+            className="bg-white shadow-lg text-gray-600 hover:bg-gray-50"
+            size="small"
+          >
+            <ChevronRight />
+          </IconButton>
+        </div>
+      )}
+
       {/* Main Content */}
-      <main className="mt-16 ml-64 p-6 overflow-x-hidden overflow-y-auto h-[calc(100vh-64px)]">
+      <main className={`mt-16 p-6 overflow-x-hidden overflow-y-auto h-[calc(100vh-64px)] transition-all duration-300 ease-in-out ${isSidebarCollapsed ? 'ml-0' : 'ml-64'}`}>
         {renderMainContent()}
       </main>
 
@@ -1935,8 +1969,8 @@ const MasterDetailCompleteDashboard: React.FC = () => {
       </Dialog>
 
       {/* Footer */}
-      <footer className="fixed bottom-0 left-0 w-full h-16 bg-white shadow-md flex items-center justify-between px-4"
-        style={{ zIndex: 100 }}
+      <footer className="fixed bottom-0 left-0 w-full h-16 bg-white flex items-center justify-between px-4 shadow-lg"
+        style={{ zIndex: 100, boxShadow: '0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -1px rgba(0, 0, 0, 0.06)' }}
       >
         <Button 
           variant="text" 
