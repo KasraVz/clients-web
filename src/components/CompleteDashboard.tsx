@@ -563,7 +563,7 @@ export const CompleteDashboard = () => {
   const renderMainContent = () => {
     if (!activeView) {
       return (
-        <div className="h-full flex flex-col items-center justify-center space-y-4" style={{ marginLeft: '148px' }}>
+        <div className="h-full flex flex-col items-center justify-center space-y-4" style={{ marginLeft: '248px' }}>
           <img 
             src="/lovable-uploads/8a0dff28-ea84-44a3-a3c2-fe796bcb4004.png" 
             alt="Supsindex Logo" 
