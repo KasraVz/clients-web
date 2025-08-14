@@ -3,8 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const FastTrakView = () => {
   return (
-    <div className="w-full flex items-center justify-center min-h-[60vh]">
-      <div className="w-full max-w-2xl px-4">
+    <div className="w-full h-full flex items-center justify-center p-8">
+      <div className="w-full max-w-2xl">
         <Card className="shadow-lg">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center">Fast Trak Tour</CardTitle>
