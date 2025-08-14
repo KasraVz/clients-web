@@ -89,23 +89,23 @@ export const CertificationsView = () => {
   };
 
   return (
-    <div className="w-full flex items-center justify-center min-h-[60vh]">
-      <div className="w-full max-w-5xl px-4">
+    <div className="w-full">
+      <div className="w-full max-w-4xl mx-auto px-4">
         <TooltipProvider>
       <Card className="shadow-lg">
-        <CardContent className="p-6">
-          <h2 className="text-2xl font-bold mb-6">Certifications</h2>
-          <div className="w-full">
-            <Table className="w-full">
+        <CardContent className="p-4">
+          <h2 className="text-xl font-bold mb-4">Certifications</h2>
+          <div className="w-full overflow-x-auto">
+            <Table className="w-full min-w-[600px]">
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[15%]">ID</TableHead>
-                  <TableHead className="w-[15%]">Date</TableHead>
-                  <TableHead className="w-[25%]">Name</TableHead>
-                  <TableHead className="w-[15%]">Status</TableHead>
-                  <TableHead className="w-[10%]">View</TableHead>
-                  <TableHead className="w-[10%]">Get</TableHead>
-                  <TableHead className="w-[10%]">Share</TableHead>
+                  <TableHead className="w-20">ID</TableHead>
+                  <TableHead className="w-24">Date</TableHead>
+                  <TableHead className="min-w-32">Name</TableHead>
+                  <TableHead className="w-20">Status</TableHead>
+                  <TableHead className="w-16">View</TableHead>
+                  <TableHead className="w-16">Get</TableHead>
+                  <TableHead className="w-16">Share</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
