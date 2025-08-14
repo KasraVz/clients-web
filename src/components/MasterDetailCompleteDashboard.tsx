@@ -72,7 +72,10 @@ type DetailView =
   | 'reports'
   | 'certifications'
   | 'affiliate-section'
-  | 'referral-section';
+  | 'referral-section'
+  | 'general-scholarship'
+  | 'request-scholarship'
+  | 'connecting-team';
 
 interface Notification {
   id: string;
@@ -148,6 +151,7 @@ const MasterDetailCompleteDashboard: React.FC = () => {
     supsindex: false,
     certs: false,
     referral: false,
+    scholarship: false,
   });
   const [emailModalOpen, setEmailModalOpen] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
@@ -351,7 +355,18 @@ const MasterDetailCompleteDashboard: React.FC = () => {
 
   const userReferralCode = 'JS2024REF';
 
-  const handleSidebarToggle = (section: 'supsindex' | 'certs' | 'referral') => {
+  // Scholarship data
+  const scholarshipItems = [
+    'Merit-Based Excellence Scholarship',
+    'Financial Need Assistance Program',
+    'Diversity and Inclusion Scholarship',
+    'Academic Achievement Award',
+    'Research Innovation Grant'
+  ];
+
+  const [scholarshipRequest, setScholarshipRequest] = useState('');
+
+  const handleSidebarToggle = (section: 'supsindex' | 'certs' | 'referral' | 'scholarship') => {
     setSidebarExpanded(prev => ({
       ...prev,
       [section]: !prev[section]
@@ -1098,6 +1113,154 @@ const MasterDetailCompleteDashboard: React.FC = () => {
     </div>
   );
 
+  const renderGeneralScholarshipView = () => (
+    <div className="w-full flex flex-col items-center justify-center p-8">
+      <Card className="max-w-2xl w-full shadow-lg">
+        <CardContent className="p-6">
+          <Typography variant="h5" className="mb-4 text-center">
+            General Scholarship Items
+          </Typography>
+          
+          <Typography variant="h6" className="mb-3">
+            Available Items:
+          </Typography>
+          <div className="space-y-2 mb-6">
+            {scholarshipItems.map((item, index) => (
+              <div 
+                key={index}
+                className="p-3 bg-gray-50 rounded-lg border border-gray-200"
+              >
+                <Typography variant="body1">
+                  {item}
+                </Typography>
+              </div>
+            ))}
+          </div>
+          
+          <Typography variant="h6" className="mb-3">
+            Takeable:
+          </Typography>
+          <div className="mb-6">
+            <Typography variant="body2" color="text.secondary">
+              You are currently eligible for {scholarshipItems.slice(0, 3).length} scholarships based on your profile and achievements.
+            </Typography>
+          </div>
+          
+          <Button 
+            variant="contained" 
+            size="large" 
+            fullWidth
+            onClick={() => toast.success('Scholarship application submitted successfully!')}
+          >
+            Send Application
+          </Button>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  const renderRequestScholarshipView = () => (
+    <div className="w-full flex flex-col items-center justify-center p-8">
+      <Card className="max-w-md w-full shadow-lg">
+        <CardContent className="p-6">
+          <Typography variant="h5" className="mb-4 text-center">
+            Request a Specific Scholarship
+          </Typography>
+          
+          <TextField
+            label="Describe the scholarship you are requesting"
+            multiline
+            rows={6}
+            fullWidth
+            variant="outlined"
+            value={scholarshipRequest}
+            onChange={(e) => setScholarshipRequest(e.target.value)}
+            placeholder="Please provide details about the specific scholarship you are interested in, including the reason for your request and how it aligns with your goals..."
+            className="mb-6"
+          />
+          
+          <Button 
+            variant="contained" 
+            size="large" 
+            fullWidth
+            onClick={() => {
+              setScholarshipRequest('');
+              toast.success('Scholarship request submitted successfully!');
+            }}
+            disabled={!scholarshipRequest.trim()}
+          >
+            Send Request
+          </Button>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  const renderConnectingTeamView = () => (
+    <div className="w-full flex flex-col items-center justify-center p-8">
+      <Card className="max-w-2xl w-full shadow-lg">
+        <CardContent className="p-6 text-center">
+          <Typography variant="h4" className="mb-4">
+            Your Team Membership
+          </Typography>
+          
+          <div className="bg-blue-50 p-6 rounded-lg mb-6">
+            <Typography variant="h6" className="mb-2">
+              You are currently a member of
+            </Typography>
+            <Typography variant="h4" className="font-bold text-primary">
+              Team Alpha
+            </Typography>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <Typography variant="subtitle1" className="font-semibold mb-1">
+                Team Role
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Senior Member
+              </Typography>
+            </div>
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <Typography variant="subtitle1" className="font-semibold mb-1">
+                Join Date
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                March 15, 2023
+              </Typography>
+            </div>
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <Typography variant="subtitle1" className="font-semibold mb-1">
+                Team Size
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                8 Members
+              </Typography>
+            </div>
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <Typography variant="subtitle1" className="font-semibold mb-1">
+                Active Projects
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                3 Projects
+              </Typography>
+            </div>
+          </div>
+          
+          <div className="flex space-x-3">
+            <Button variant="contained">
+              View Team Details
+            </Button>
+            <Button variant="outlined">
+              Team Dashboard
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
   const renderMainContent = () => {
     switch (activeView) {
       case 'welcome':
@@ -1128,6 +1291,12 @@ const MasterDetailCompleteDashboard: React.FC = () => {
         return renderAffiliateSectionView();
       case 'referral-section':
         return renderReferralSectionView();
+      case 'general-scholarship':
+        return renderGeneralScholarshipView();
+      case 'request-scholarship':
+        return renderRequestScholarshipView();
+      case 'connecting-team':
+        return renderConnectingTeamView();
       default:
         return renderWelcomeView();
     }
@@ -1310,6 +1479,41 @@ const MasterDetailCompleteDashboard: React.FC = () => {
               </ListItemButton>
             </List>
           </Collapse>
+
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => handleSidebarToggle('scholarship')}>
+              <ListItemText primary="Scholarship" />
+              {sidebarExpanded.scholarship ? <ExpandLess /> : <ExpandMore />}
+            </ListItemButton>
+          </ListItem>
+
+          <Collapse in={sidebarExpanded.scholarship} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItemButton 
+                sx={{ pl: 4 }}
+                onClick={() => setActiveView('general-scholarship')}
+                className={activeView === 'general-scholarship' ? 'bg-blue-50 shadow-md' : ''}
+              >
+                <ListItemText primary="General Scholarship Items" />
+              </ListItemButton>
+              <ListItemButton 
+                sx={{ pl: 4 }}
+                onClick={() => setActiveView('request-scholarship')}
+                className={activeView === 'request-scholarship' ? 'bg-blue-50 shadow-md' : ''}
+              >
+                <ListItemText primary="Request a Specific Scholarship" />
+              </ListItemButton>
+            </List>
+          </Collapse>
+
+          <ListItem disablePadding>
+            <ListItemButton 
+              onClick={() => setActiveView('connecting-team')}
+              className={activeView === 'connecting-team' ? 'bg-blue-50 shadow-md' : ''}
+            >
+              <ListItemText primary="Connecting with a team" />
+            </ListItemButton>
+          </ListItem>
         </List>
       </Drawer>
 
