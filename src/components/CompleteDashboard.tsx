@@ -516,20 +516,18 @@ export const CompleteDashboard = () => {
   const renderMainContent = () => {
     if (!activeView) {
       return (
-        <div className="flex flex-col items-center justify-center h-full p-8">
-          <div className="text-center">
-            <img 
-              src="/lovable-uploads/8a0dff28-ea84-44a3-a3c2-fe796bcb4004.png" 
-              alt="Supsindex Logo" 
-              className="w-full max-w-sm mx-auto mb-8"
-            />
-            <h1 className="text-3xl font-bold text-gray-800 mb-4">
-              Welcome to Your Dashboard
-            </h1>
-            <p className="text-lg text-gray-600">
-              Click an item in the sidebar or header to get started
-            </p>
-          </div>
+        <div className="h-[calc(100vh-4rem)] flex flex-col items-center justify-center space-y-4">
+          <img 
+            src="/lovable-uploads/8a0dff28-ea84-44a3-a3c2-fe796bcb4004.png" 
+            alt="Supsindex Logo" 
+            className="w-full max-w-sm mx-auto"
+          />
+          <h1 className="text-3xl font-bold text-gray-800">
+            Welcome to Your Dashboard
+          </h1>
+          <p className="text-lg text-gray-600 text-center">
+            Click an item in the sidebar or header to get started
+          </p>
         </div>
       );
     }
@@ -681,10 +679,8 @@ export const CompleteDashboard = () => {
         </aside>
 
         {/* Main Content */}
-        <main className="md:ml-64 mt-16 overflow-x-hidden overflow-y-auto min-h-[calc(100vh-4rem)]">
-          <div className="w-full h-full flex flex-col justify-center items-center p-8">
-            {renderMainContent()}
-          </div>
+        <main className="md:ml-64 mt-16 p-6 overflow-x-hidden overflow-y-auto">
+          {renderMainContent()}
         </main>
       </div>
 
